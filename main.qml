@@ -214,13 +214,24 @@ ApplicationWindow {
     ScrollView {
         anchors.fill: parent
 
+        // Policy for Scrool Bar
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+
         TextArea {
             id: editor
-            focus: true
+
+            // Placeholder text
             text: "Hello World"
+
+            // Wrap Text
+            wrapMode: TextEdit.WrapAnywhere
+
+            // !Mouse Settings
+            focus: true
             selectByMouse:  true
 
-            // For copy and paste
+            // !Allowing copy and paste
             persistentSelection: true
         }
     }
