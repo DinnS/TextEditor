@@ -1,11 +1,10 @@
 #include "backend.h"
 #include <QUrl>
 
+// Constructor
 Backend::Backend(QObject *parent)
     : QObject{parent}
 {
-    //m_filePath = QCoreApplication::applicationDirPath();
-    //m_path.append("/file.txt");
 }
 
 // Getter
@@ -31,23 +30,19 @@ QString Backend::getFileContent()
 // Setter
 void Backend::setFilePath(QString value)
 {
-    // m_path = value;
-    // m_path.remove("file://");
-    // emit pathChanged();
     QUrl url(value);
     if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
     } else {
         m_filePath = value; // Handle or log if the URL is not a local file
     }
-    qDebug() << "m_path:" << m_filePath; // Debug output to verify the path
+    qDebug() << "m_filePath:" << m_filePath; // Debug output to verify the path
     emit filePathChanged();
 }
 
 
 void Backend::setFileContent(QString value)
 {
-
     QFile file(m_filePath);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "Could not write file!";

@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
+import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Dialogs
 import org.din.backend 1.0
@@ -51,8 +51,6 @@ ApplicationWindow {
     Action {
         id: actionNew
         text: qsTr("&New...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oNew.png"
 
         onTriggered: editor.clear()
     }
@@ -60,19 +58,20 @@ ApplicationWindow {
     Action {
         id: actionOpen
         text: qsTr("&Open...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oOpen.png"
 
         onTriggered: openDialog.open()
     }
 
     Action {
         id: actionSave
-        text: qsTr("&Save...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oSave.png"
+        text: qsTr("&Save")
 
-        onTriggered: saveDialog.open()
+        enabled: backend.filePath !== ''
+
+
+        onTriggered: {
+            backend.fileContent = editor.text
+        }
     }
 
     Action {
@@ -93,24 +92,21 @@ ApplicationWindow {
     Action {
         id: actionCopy
         text: qsTr("&Copy...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oCopy.png"
+
         onTriggered: editor.copy()
     }
 
     Action {
         id: actionCut
         text: qsTr("&Cut...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oCut.png"
+
         onTriggered: editor.cut()
     }
 
     Action {
         id: actionPaste
         text: qsTr("&Paste...")
-        icon.color: "transparent"
-        icon.source: "qrc:/icons/icons/oPaste.png"
+
         onTriggered: editor.paste()
     }
 
@@ -176,62 +172,28 @@ ApplicationWindow {
         }
     }
 
-
-    header: ToolBar {
-        Row {
-            ToolButton {
-                action: actionNew
-                display: AbstractButton.IconOnly;
-            }
-
-            ToolButton {
-                action: actionOpen
-                display: AbstractButton.IconOnly;
-            }
-
-            ToolButton {
-                action: actionSave
-                display: AbstractButton.IconOnly;
-            }
-
-            ToolButton {
-                action: actionCopy
-                display: AbstractButton.IconOnly;
-            }
-
-            ToolButton {
-                action: actionCut
-                display: AbstractButton.IconOnly;
-            }
-
-            ToolButton {
-                action: actionPaste
-                display: AbstractButton.IconOnly;
-            }
-        }
-    }
-
     ScrollView {
         anchors.fill: parent
 
-        // Policy for Scrool Bar
+        // Scroll bar policy settings
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
+
 
         TextArea {
             id: editor
 
-            // Placeholder text
+            // Initial placeholder text
             text: "Hello World"
 
-            // Wrap Text
+            // Enable text wrapping to break anywhere
             wrapMode: TextEdit.WrapAnywhere
 
-            // !Mouse Settings
+            // !Enable focus and mouse interaction
             focus: true
             selectByMouse:  true
 
-            // !Allowing copy and paste
+            // !Allow persistent selection for copy-paste
             persistentSelection: true
         }
     }
