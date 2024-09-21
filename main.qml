@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import QtQuick.Dialogs
 import org.din.backend 1.0
 
@@ -14,6 +14,9 @@ ApplicationWindow {
 
     // Custom property
     property int menuBarWidth: 100
+
+    property color backgroundWindowColor: "#272727"
+    property color backgroundMenuBarColor: "#1a2126"
 
     // Connecting to the backend
     Backend {
@@ -111,6 +114,11 @@ ApplicationWindow {
     }
 
     menuBar: MenuBar {
+
+        background: Rectangle {
+            color: backgroundMenuBarColor
+        }
+
         Menu {
             id: menuFile
             title: qsTr("&File")
@@ -143,6 +151,7 @@ ApplicationWindow {
         Menu {
             id: menuEdit
             title: qsTr("&Edit")
+
             width: root.menuBarWidth
 
             MenuItem {
@@ -179,12 +188,20 @@ ApplicationWindow {
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
-
         TextArea {
             id: editor
 
             // Initial placeholder text
             text: "Hello World"
+
+            // Colors setup
+            background: Rectangle {
+                id: backgroundWindow
+
+                color: backgroundWindowColor
+            }
+
+            color: "#ffffff"
 
             // Enable text wrapping to break anywhere
             wrapMode: TextEdit.WrapAnywhere
