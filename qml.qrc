@@ -1,13 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-    </qresource>
-    <qresource prefix="/icons">
-        <file>icons/oCopy.png</file>
-        <file>icons/oCut.png</file>
-        <file>icons/oNew.png</file>
-        <file>icons/oOpen.png</file>
-        <file>icons/oPaste.png</file>
-        <file>icons/oSave.png</file>
+        <file>CustomMenuBar.qml</file>
     </qresource>
 </RCC>

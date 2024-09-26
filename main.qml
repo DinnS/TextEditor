@@ -1,6 +1,6 @@
 import QtQuick
-import QtQuick.Window
 import QtQuick.Controls.Fusion
+import QtQuick.Window
 import QtQuick.Dialogs
 import org.din.backend 1.0
 
@@ -113,73 +113,79 @@ ApplicationWindow {
         onTriggered: editor.paste()
     }
 
-    menuBar: MenuBar {
-
-        background: Rectangle {
-            color: backgroundMenuBarColor
-        }
-
-        Menu {
-            id: menuFile
-            title: qsTr("&File")
-            width: root.menuBarWidth
-
-            MenuItem {
-                action: actionNew
-                display: AbstractButton.TextOnly
-            }
-
-            MenuItem {
-                action: actionOpen
-                display: AbstractButton.TextOnly
-            }
-
-            MenuItem {
-                action: actionSave
-                display: AbstractButton.TextOnly
-            }
-
-            MenuItem {
-                action: actionSaveAs
-            }
-
-            MenuItem {
-                action: actionQuit
-            }
-
-        }
-        Menu {
-            id: menuEdit
-            title: qsTr("&Edit")
-
-            width: root.menuBarWidth
-
-            MenuItem {
-                action: actionCut
-                display: AbstractButton.TextOnly
-            }
-
-            MenuItem {
-                action: actionCopy
-                display: AbstractButton.TextOnly
-            }
-
-            MenuItem {
-                action: actionPaste
-                display: AbstractButton.TextOnly
-            }
-        }
-        Menu {
-            id: menuHelp
-            title: qsTr("&Help")
-            width: root.menuBarWidth
-
-            MenuItem {
-                // action:
-                // text: qsTr("&About")
-            }
-        }
+    CustomMenuBar {
+        anchors.top: parent.top
+        width: parent.width
+        height: 40
     }
+
+    // menuBar: MenuBar {
+
+    //     background: Rectangle {
+    //         color: backgroundMenuBarColor
+    //     }
+
+    //     Menu {
+    //         id: menuFile
+    //         title: qsTr("&File")
+    //         width: root.menuBarWidth
+
+    //         MenuItem {
+    //             action: actionNew
+    //             display: AbstractButton.TextOnly
+    //         }
+
+    //         MenuItem {
+    //             action: actionOpen
+    //             display: AbstractButton.TextOnly
+    //         }
+
+    //         MenuItem {
+    //             action: actionSave
+    //             display: AbstractButton.TextOnly
+    //         }
+
+    //         MenuItem {
+    //             action: actionSaveAs
+    //         }
+
+    //         MenuItem {
+    //             action: actionQuit
+    //         }
+
+    //     }
+    //     Menu {
+    //         id: menuEdit
+    //         title: qsTr("&Edit")
+
+    //         width: root.menuBarWidth
+
+    //         MenuItem {
+    //             action: actionCut
+    //             display: AbstractButton.TextOnly
+    //         }
+
+    //         MenuItem {
+    //             action: actionCopy
+    //             display: AbstractButton.TextOnly
+    //         }
+
+    //         MenuItem {
+    //             action: actionPaste
+    //             display: AbstractButton.TextOnly
+    //         }
+    //     }
+    //     Menu {
+    //         id: menuHelp
+    //         title: qsTr("&Help")
+    //         width: root.menuBarWidth
+
+    //         MenuItem {
+    //             // action:
+    //             // text: qsTr("&About")
+    //         }
+    //     }
+    // }
 
     ScrollView {
         anchors.fill: parent
@@ -192,12 +198,13 @@ ApplicationWindow {
             id: editor
 
             // Initial placeholder text
-            text: "Hello World"
+            text: ""
 
             // Colors setup
+            y: 35
             background: Rectangle {
                 id: backgroundWindow
-
+                y: 100
                 color: backgroundWindowColor
             }
 
