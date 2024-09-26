@@ -13,10 +13,12 @@ ApplicationWindow {
     title: qsTr("Text Editor")
 
     // Custom property
-    property int menuBarWidth: 100
 
-    property color backgroundWindowColor: "#272727"
-    property color backgroundMenuBarColor: "#1a2126"
+    readonly property int menuBarWidth: root.width
+    readonly property int menuBarHeight: 40
+
+    readonly property color backgroundEditorColor: "#272727"
+    readonly property color backgroundMenuBarColor: "#1a2126"
 
     // Connecting to the backend
     Backend {
@@ -113,11 +115,7 @@ ApplicationWindow {
         onTriggered: editor.paste()
     }
 
-    CustomMenuBar {
-        anchors.top: parent.top
-        width: parent.width
-        height: 40
-    }
+
 
     // menuBar: MenuBar {
 
@@ -187,8 +185,21 @@ ApplicationWindow {
     //     }
     // }
 
+    CustomMenuBar {
+        // Size
+        menuWidth: menuBarWidth
+        menuHeight: menuBarHeight
+    }
+
     ScrollView {
-        anchors.fill: parent
+        id: scrollView
+
+        // Size
+        width: root.width
+        height: root.height
+
+        // Position
+        y: root.menuBarHeight
 
         // Scroll bar policy settings
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
@@ -197,18 +208,13 @@ ApplicationWindow {
         TextArea {
             id: editor
 
-            // Initial placeholder text
+            // Position
+            y: parent.y
+
+            // Text setup
             text: ""
-
-            // Colors setup
-            y: 35
-            background: Rectangle {
-                id: backgroundWindow
-                y: 100
-                color: backgroundWindowColor
-            }
-
             color: "#ffffff"
+            font.pointSize: 14
 
             // Enable text wrapping to break anywhere
             wrapMode: TextEdit.WrapAnywhere
@@ -219,6 +225,17 @@ ApplicationWindow {
 
             // !Allow persistent selection for copy-paste
             persistentSelection: true
+
+            // Background
+            background: Rectangle {
+                id: backgroundEditor
+
+                // Position
+                y: editor.y
+
+                // Background color
+                color: backgroundEditorColor
+            }
         }
     }
 
