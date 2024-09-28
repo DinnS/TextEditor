@@ -13,7 +13,6 @@ ApplicationWindow {
     title: qsTr("Text Editor")
 
     // Custom property
-
     readonly property int menuBarWidth: root.width
     readonly property int menuBarHeight: 40
 
@@ -28,167 +27,101 @@ ApplicationWindow {
     }
 
     // File Dialogs Popups
-    FileDialog {
-        id: openDialog
-        title: "Please select a file to open"
-        fileMode: FileDialog.OpenFile
-        nameFilters: ["Text Files (*.txt)"]
+    // FileDialog {
+    //     id: openDialog
+    //     title: "Please select a file to open"
+    //     fileMode: FileDialog.OpenFile
+    //     nameFilters: ["Text Files (*.txt)"]
 
-        onAccepted: {
-            backend.filePath = openDialog.selectedFile
-            editor.text = backend.fileContent
-        }
-    }
-
-    FileDialog {
-        id: saveDialog
-        title: "Please select a file to save"
-        fileMode: FileDialog.SaveFile
-        nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
-
-        onAccepted: {
-            backend.filePath = saveDialog.selectedFile
-            backend.fileContent = editor.text
-        }
-    }
-
-    // File Menu Options
-    Action {
-        id: actionNew
-        text: qsTr("&New...")
-
-        onTriggered: editor.clear()
-    }
-
-    Action {
-        id: actionOpen
-        text: qsTr("&Open...")
-
-        onTriggered: openDialog.open()
-    }
-
-    Action {
-        id: actionSave
-        text: qsTr("&Save")
-
-        enabled: backend.filePath !== ''
-
-
-        onTriggered: {
-            backend.fileContent = editor.text
-        }
-    }
-
-    Action {
-        id: actionSaveAs
-        text: qsTr("&Save As...")
-
-        onTriggered: saveDialog.open()
-    }
-
-    Action {
-        id: actionQuit
-        text: qsTr("&Quit")
-
-        onTriggered: Qt.quit()
-    }
-
-    // Edit Menu Options
-    Action {
-        id: actionCopy
-        text: qsTr("&Copy...")
-
-        onTriggered: editor.copy()
-    }
-
-    Action {
-        id: actionCut
-        text: qsTr("&Cut...")
-
-        onTriggered: editor.cut()
-    }
-
-    Action {
-        id: actionPaste
-        text: qsTr("&Paste...")
-
-        onTriggered: editor.paste()
-    }
-
-
-
-    // menuBar: MenuBar {
-
-    //     background: Rectangle {
-    //         color: backgroundMenuBarColor
-    //     }
-
-    //     Menu {
-    //         id: menuFile
-    //         title: qsTr("&File")
-    //         width: root.menuBarWidth
-
-    //         MenuItem {
-    //             action: actionNew
-    //             display: AbstractButton.TextOnly
-    //         }
-
-    //         MenuItem {
-    //             action: actionOpen
-    //             display: AbstractButton.TextOnly
-    //         }
-
-    //         MenuItem {
-    //             action: actionSave
-    //             display: AbstractButton.TextOnly
-    //         }
-
-    //         MenuItem {
-    //             action: actionSaveAs
-    //         }
-
-    //         MenuItem {
-    //             action: actionQuit
-    //         }
-
-    //     }
-    //     Menu {
-    //         id: menuEdit
-    //         title: qsTr("&Edit")
-
-    //         width: root.menuBarWidth
-
-    //         MenuItem {
-    //             action: actionCut
-    //             display: AbstractButton.TextOnly
-    //         }
-
-    //         MenuItem {
-    //             action: actionCopy
-    //             display: AbstractButton.TextOnly
-    //         }
-
-    //         MenuItem {
-    //             action: actionPaste
-    //             display: AbstractButton.TextOnly
-    //         }
-    //     }
-    //     Menu {
-    //         id: menuHelp
-    //         title: qsTr("&Help")
-    //         width: root.menuBarWidth
-
-    //         MenuItem {
-    //             // action:
-    //             // text: qsTr("&About")
-    //         }
+    //     onAccepted: {
+    //         backend.filePath = openDialog.selectedFile
+    //         editor.text = backend.fileContent
     //     }
     // }
 
+    // FileDialog {
+    //     id: saveDialog
+    //     title: "Please select a file to save"
+    //     fileMode: FileDialog.SaveFile
+    //     nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
+
+    //     onAccepted: {
+    //         backend.filePath = saveDialog.selectedFile
+    //         backend.fileContent = editor.text
+    //     }
+    // }
+
+    // File Menu Options
+    // Action {
+    //     id: actionNew
+    //     text: qsTr("&New...")
+
+    //     onTriggered: editor.clear()
+    // }
+
+    // Action {
+    //     id: actionOpen
+    //     text: qsTr("&Open...")
+
+    //     onTriggered: openDialog.open()
+    // }
+
+    // Action {
+    //     id: actionSave
+    //     text: qsTr("&Save")
+
+    //     enabled: backend.filePath !== ''
+
+
+    //     onTriggered: {
+    //         backend.fileContent = editor.text
+    //     }
+    // }
+
+    // Action {
+    //     id: actionSaveAs
+    //     text: qsTr("&Save As...")
+
+    //     onTriggered: saveDialog.open()
+    // }
+
+    // Action {
+    //     id: actionQuit
+    //     text: qsTr("&Quit")
+
+    //     onTriggered: Qt.quit()
+    // }
+
+    // // Edit Menu Options
+    // Action {
+    //     id: actionCopy
+    //     text: qsTr("&Copy...")
+
+    //     onTriggered: editor.copy()
+    // }
+
+    // Action {
+    //     id: actionCut
+    //     text: qsTr("&Cut...")
+
+    //     onTriggered: editor.cut()
+    // }
+
+    // Action {
+    //     id: actionPaste
+    //     text: qsTr("&Paste...")
+
+    //     onTriggered: editor.paste()
+    // }
+
     CustomMenuBar {
+        // General Setup
+        windowHeight: root.height
+        textEditor: editor
+
         // Size
-        menuWidth: menuBarWidth
-        menuHeight: menuBarHeight
+        width: menuBarWidth
+        bodyHeight: root.menuBarHeight
     }
 
     ScrollView {

@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>CustomMenuBar.qml</file>
+        <file>CustomButton.qml</file>
+        <file>CustomDropdownMenu.qml</file>
     </qresource>
 </RCC>

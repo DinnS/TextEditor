@@ -1,98 +1,107 @@
 import QtQuick
 
+// Menu Bar
 Item {
     id: root
 
-    property alias menuWidth: root.width
-    property alias menuHeight: root.height
+    // General
+    // For the dropdown outside the mouse area
+    property int windowHeight: 300
 
-    readonly property int menuItemWidth: 50
-    readonly property int menuItemHeight: menuHeight
+    // Reference to the Text Editor
+    property Item textEditor
 
+    // Body Size
+    property int bodyHeight: root.height
+
+    // Body Color
+    property color bodyColorDefault: "#1a2127"
+
+    // Item Size
+    readonly property int itemWidth: 80
+    readonly property int itemHeight: root.bodyHeight
+
+    // Item Color
+    readonly property color itemDefaultColor: "#1a2127"
+    readonly property color itemHoverColor: "#4a4a4a"
+
+    // Text Color
     readonly property color textColor: "#ffffff"
+
+    // Text Setup
     readonly property int textSize: 11
 
+    // Ensuring this is in top
+    z: 1
+
+    // Body
     Rectangle {
-        id: menuBar
+        id: body
 
-        // Size
+        // Body Size
         width: root.width
-        height: root.height
+        height: root.bodyHeight
 
-        // Background color
-        color: "#1a2127"
+        // Body Color
+        color: root.bodyColorDefault
 
+        // Body Row
         Row {
+            id: bodyRow
+
+            // Body Row Position
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 15
-            spacing: 30
+            spacing: 10
 
-            // File Menu
-            Item {
-                id: menuFile
-                width: menuItemWidth
-                height: menuItemHeight
+            // Body Item File
+            CustomButton {
+                id: bodyItemFile
 
-                Text {
-                    text: "File"
-                    color: textColor
-                    font.pointSize: textSize
-                    anchors.centerIn: parent
-                }
+                // Body Item Size
+                width: root.itemWidth
+                height: root.itemHeight
 
-                MouseArea {
-                    anchors.fill: parent
+                // Body Item Color
+                bodyColorDefault: root.itemDefaultColor
+                bodyColorHover: root.itemHoverColor
 
-                    onClicked: {
-                        console.log("menuFile Clicked")
-                    }
-                }
-            }
+                textColorDefault: "#ffffff"
+                textColorHover: "#ffffff"
+                textColorPressed: "#ffffff"
 
-            // Edit Menu
-            Item {
-                id: menuEdit
-                width: menuItemWidth
-                height: menuItemHeight
+                // Body Item Text
+                text: "File"
+                textSize: root.textSize
 
-                Text {
-                    text: "Edit"
-                    color: textColor
-                    font.pointSize: textSize
-                    anchors.centerIn: parent
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {
-                        console.log("menuEdit Clicked")
-                    }
+                // Body Item Clicked Event
+                onClicked: {
+                    // If Clicked, than Toggle Dropdown
+                    dropdownMenuFile.generalVisibility = !dropdownMenuFile.generalVisibility
                 }
             }
 
-            // About Menu
-            Item {
-                id: menuAbout
-                width: menuItemWidth
-                height: menuItemHeight
-
-                Text {
-                    text: "About"
-                    color: textColor
-                    font.pointSize: textSize
-                    anchors.centerIn: parent
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {
-                        console.log("menuAbout Clicked")
-                    }
-                }
-            }
         }
+    }
+
+    // Dropdown Menu File
+    CustomDropdownMenu {
+        id: dropdownMenuFile
+
+        // Dropdown Menu Size
+        width: root.width
+        height: root.windowHeight - root.height
+
+        // Dropdown Menu Position
+        y: root.bodyHeight
+
+        // Dropdown Menu General
+        textEditor: root.textEditor
+
+        // Dropdown Menu Items
+        menuItems: [
+            {text: "New", action: function() { textEditor.clear(); console.log("New clicked, text cleared."); }}
+        ]
     }
 }

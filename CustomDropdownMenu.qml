@@ -1,0 +1,114 @@
+import QtQuick
+
+// Dropdown Menu
+Item {
+    id: root
+
+    // Reference to the Text Editor
+    property Item textEditor
+
+    // General Visibility
+    property bool generalVisibility: false
+
+    // Model Of Items
+    property var menuItems: []
+
+    // Body Size
+    readonly property int bodyWidth: 125
+
+    // Body Color
+    readonly property color bodyColor: "#2b2b2b"
+
+    // Item Size
+    property int itemHeight: 50
+
+    // Item Text Setup
+    property int itemTextSize: 12
+
+    // Outside Mouse Area To Detect Click From Outside
+    MouseArea {
+        id: outsideMouseArea
+
+        // Outside Mouse Area Size
+        anchors.fill: root
+
+        // Outside Mouse Area Position
+        // Ensuring this is below dropdown
+        z: -1
+
+        // Outside Mouse Area Visibility
+        visible: root.generalVisibility
+
+        // Outside Mouse Area Click Event
+        onClicked: {
+            // If click on the outside, than exit from dropdown
+            root.generalVisibility = false
+        }
+    }
+
+    // Body
+    Rectangle {
+        id: body
+
+        // Body Visibility
+        visible: root.generalVisibility
+
+        // Body Size
+        width: root.bodyWidth
+        height: (bodyColumn.children.length - 1) * root.itemHeight
+
+        // Body Color
+        color: root.bodyColor
+
+        // Body Radius
+        radius: 10
+
+        // Body Column
+        Column {
+            id: bodyColumn
+
+            // Body Column Size
+            anchors.fill: body
+
+            // Body Item Repeter
+            Repeater {
+                model: root.menuItems
+
+                // Body Item
+                CustomButton {
+                    id: bodyItemNew
+
+                    // Body Item Size
+                    width: body.width
+                    height: root.itemHeight
+
+                    // Body Item Color
+                    bodyColorDefault: "#00000000"
+                    bodyColorHover: "#383838"
+
+                    textColorDefault: "#ffffff"
+                    textColorHover: "#ffffff"
+                    textColorPressed: "#ffffff"
+
+                    // Body Item Dynamic Text
+                    text: modelData.text
+                    textSize: root.itemTextSize
+
+                    // Body Item Clicked Event
+                    onClicked: {
+                        // Call the action function
+                        modelData.action()
+
+                        // If Clicked, than Close Dropdown
+                        root.generalVisibility = false
+                    }
+                }
+
+            }
+
+
+
+        }
+    }
+
+}
