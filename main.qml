@@ -37,106 +37,63 @@ ApplicationWindow {
     }
 
     // Text Editor
-    ScrollView {
-        id: scrollView
 
-        // Text Editor Scroll Size
-        width: root.width
-        height: root.height
 
-        // Text Editor Scroll Position
-        y: root.menuBarHeight
+        ScrollView {
+            id: scrollView
 
-        // Text Editor Scroll Bar Policy
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            // Text Editor Scroll Size
+            width: root.width
+            height: root.height
 
-        // Text Editor Area
-        TextArea {
-            id: editor
+            // Text Editor Scroll Position
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.topMargin: root.menuBarHeight
 
-            // Text Editor Area Position
-            y: parent.y
+            // Text Editor Scroll Bar Policy
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
-            // Text Editor Area Text
-            text: ""
-            font.pointSize: 14
-            color: "#ffffff"
+            // Text Editor Area
+            TextArea {
+                id: editor
 
-            // Text Editor Area Setups
-            // Enable text wrapping to break anywhere
-            wrapMode: TextEdit.WrapAnywhere
-            // !Enable focus and mouse interaction
-            focus: true
-            selectByMouse:  true
-            // !Allow persistent selection for copy-paste
-            persistentSelection: true
+                // Text Editor Area Position
+                topPadding: 10
+                bottomPadding: 15
+                leftPadding: 25
+                rightPadding: 25
 
-            // Text Editor Background
-            background: Rectangle {
-                id: editorBackground
+                // Text Editor Area Size
+                width: root.width
+                height: root.height
 
-                // Text Editor Background Position
-                y: editor.y
+                // Text Editor Area Text
+                text: ""
+                font.pointSize: 14
+                color: "#ffffff"
 
-                // Text Editor Background Color
-                color: editorBackgroundColor
+                // Text Editor Area Setups
+                // Enable text wrapping to break anywhere
+                wrapMode: TextEdit.WrapAnywhere
+                // !Enable focus and mouse interaction
+                focus: true
+                selectByMouse:  true
+                // !Allow persistent selection for copy-paste
+                persistentSelection: true
+
+                // Text Editor Background
+                background: Rectangle {
+                    id: editorBackground
+
+                    // Text Editor Background Color
+                    color: editorBackgroundColor
+                }
+
             }
         }
-    }
+
 }
-
-
-// File Dialogs Popups
-// FileDialog {
-//     id: openDialog
-//     title: "Please select a file to open"
-//     fileMode: FileDialog.OpenFile
-//     nameFilters: ["Text Files (*.txt)"]
-
-//     onAccepted: {
-//         backend.filePath = openDialog.selectedFile
-//         editor.text = backend.fileContent
-//     }
-// }
-
-// FileDialog {
-//     id: saveDialog
-//     title: "Please select a file to save"
-//     fileMode: FileDialog.SaveFile
-//     nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
-
-//     onAccepted: {
-//         backend.filePath = saveDialog.selectedFile
-//         backend.fileContent = editor.text
-//     }
-// }
-
-
-// Action {
-//     id: actionOpen
-//     text: qsTr("&Open...")
-
-//     onTriggered: openDialog.open()
-// }
-
-// Action {
-//     id: actionSave
-//     text: qsTr("&Save")
-
-//     enabled: backend.filePath !== ''
-
-
-//     onTriggered: {
-//         backend.fileContent = editor.text
-//     }
-// }
-
-// Action {
-//     id: actionSaveAs
-//     text: qsTr("&Save As...")
-
-//     onTriggered: saveDialog.open()
-// }
-
-
