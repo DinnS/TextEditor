@@ -1,4 +1,6 @@
 import QtQuick
+import QtQuick.Dialogs
+import org.din.backend 1.0
 
 // Menu Bar
 Item {
@@ -6,12 +8,14 @@ Item {
 
     // General
     // For the dropdown outside the mouse area
-    property int windowHeight: 300
+    property int windowWidth: 640
+    property int windowHeight: 480
 
     // Reference to the Text Editor
     property Item textEditor
 
     // Body Size
+    property int bodyWidth: root.width
     property int bodyHeight: root.height
 
     // Body Color
@@ -20,6 +24,9 @@ Item {
     // Item Size
     readonly property int itemWidth: 80
     readonly property int itemHeight: root.bodyHeight
+
+    // For fix subitem position x
+    readonly property int subitemXFix: 4
 
     // Item Color
     readonly property color itemDefaultColor: "#1a2127"
@@ -34,12 +41,23 @@ Item {
     // Ensuring this is in top
     z: 1
 
+    // Functions
+    // Function to close all dropdown menu
+    function closeAllDropdowns(currentDropdown) {
+        if (currentDropdown !== dropdownMenuFile) {
+            dropdownMenuFile.generalVisibility = false
+        }
+        if (currentDropdown !== dropdownMenuEdit) {
+            dropdownMenuEdit.generalVisibility = false
+        }
+    }
+
     // Body
     Rectangle {
         id: body
 
         // Body Size
-        width: root.width
+        width: root.bodyWidth
         height: root.bodyHeight
 
         // Body Color
@@ -67,6 +85,7 @@ Item {
                 bodyColorDefault: root.itemDefaultColor
                 bodyColorHover: root.itemHoverColor
 
+                // Body Item Text Color
                 textColorDefault: "#ffffff"
                 textColorHover: "#ffffff"
                 textColorPressed: "#ffffff"
@@ -77,8 +96,41 @@ Item {
 
                 // Body Item Clicked Event
                 onClicked: {
+                    // Close all dropdowns before opening the current one
+                    root.closeAllDropdowns(dropdownMenuFile)
+
                     // If Clicked, than Toggle Dropdown
                     dropdownMenuFile.generalVisibility = !dropdownMenuFile.generalVisibility
+                }
+            }
+
+            // Body Item Edit
+            CustomButton {
+                id: bodyItemEdit
+
+                // Body Item Size
+                width: root.itemWidth
+                height: root.itemHeight
+
+                // Body Item Color
+                bodyColorDefault: root.itemDefaultColor
+                bodyColorHover: root.itemHoverColor
+
+                textColorDefault: "#ffffff"
+                textColorHover: "#ffffff"
+                textColorPressed: "#ffffff"
+
+                // Body Item Text
+                text: "Edit"
+                textSize: root.textSize
+
+                // Body Item Clicked Event
+                onClicked: {
+                    // Close all dropdowns before opening the current one
+                    root.closeAllDropdowns(dropdownMenuEdit)
+
+                    // If Clicked, than Toggle Dropdown
+                    dropdownMenuEdit.generalVisibility = !dropdownMenuEdit.generalVisibility
                 }
             }
 
@@ -89,19 +141,129 @@ Item {
     CustomDropdownMenu {
         id: dropdownMenuFile
 
-        // Dropdown Menu Size
-        width: root.width
-        height: root.windowHeight - root.height
+        // Dropdown Mouse Area Size
+        windowWidth: root.windowWidth
+        windowHeight: root.windowHeight - root.height
 
         // Dropdown Menu Position
+        x: bodyRow.spacing + subitemXFix
         y: root.bodyHeight
 
-        // Dropdown Menu General
-        textEditor: root.textEditor
+        // Dropdown Menu Items
+        itemSpacing: bodyRow.spacing
+        menuItems: [
+            {
+                text: "New",
+                action: function() {
+                    textEditor.clear();
+                },
+                enabled: true
+            },
+            {
+                text: "Open...",
+                action: function() {
+                    openDialog.open()
+                },
+                enabled: true
+            },
+            {
+                text: "Save",
+                action: function() {
+                    //dropdownMenuFile.enabled = backend.filePath !== ''
+
+                    backend.fileContent = textEditor.text
+                },
+                enabled: backend.filePath !== ''
+            },
+            {
+                text: "Save As...",
+                action: function() {
+                    saveDialog.open()
+                },
+                enabled: true
+            },
+            {
+                text: "Quit",
+                action: function() {
+                    Qt.quit()
+                },
+                enabled: true
+            },
+        ]
+    }
+
+    // Dropdown Menu Edit
+    CustomDropdownMenu {
+        id: dropdownMenuEdit
+
+        // Dropdown Menu Size
+        windowWidth: root.windowWidth
+        windowHeight: root.windowHeight - root.height
+
+        // Dropdown Menu Position
+        x: root.itemWidth + (bodyRow.spacing * 2) + subitemXFix
+        y: root.bodyHeight
 
         // Dropdown Menu Items
         menuItems: [
-            {text: "New", action: function() { textEditor.clear(); console.log("New clicked, text cleared."); }}
+            {
+                text: "Cut",
+                action: function() {
+                    textEditor.cut()
+                },
+                enabled: true
+            },
+            {
+                text: "Copy",
+                action: function() {
+                    textEditor.copy()
+                },
+                enabled: true
+            },
+            {
+                text: "Paste",
+                action: function() {
+                    textEditor.paste()
+                },
+                enabled: true
+            }
         ]
+
     }
+
+    // Connecting to the backend
+    Backend {
+        id: backend
+        // Backend Debug
+        onFilePathChanged: console.log("Path:", filePath)
+        onFileContentChanged: console.log("Data:", fileContent)
+    }
+
+    // File Dialogs Popups
+    FileDialog {
+        id: openDialog
+        title: "Please select a file to open"
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["Text Files (*.txt)"]
+
+        onAccepted: {
+            backend.filePath = openDialog.selectedFile
+            textEditor.text = backend.fileContent
+        }
+    }
+
+    FileDialog {
+        id: saveDialog
+        title: "Please select a file to save"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
+
+        onAccepted: {
+            backend.filePath = saveDialog.selectedFile
+            backend.fileContent = textEditor.text
+        }
+    }
+
 }
+
+

@@ -1,175 +1,142 @@
 import QtQuick
 import QtQuick.Controls.Fusion
 import QtQuick.Window
-import QtQuick.Dialogs
-import org.din.backend 1.0
 
 // Main Window
 ApplicationWindow {
     id: root
-    visible: true
+
+    // Window Size
     width: 640
     height: 480
-    title: qsTr("Text Editor")
 
-    // Custom property
+    // Window Setup
+    title: qsTr("Text Editor")
+    visible: true
+
+    // Menu Bar
     readonly property int menuBarWidth: root.width
     readonly property int menuBarHeight: 40
 
-    readonly property color backgroundEditorColor: "#272727"
-    readonly property color backgroundMenuBarColor: "#1a2126"
+    // Editor Background
+    readonly property color editorBackgroundColor: "#272727"
 
-    // Connecting to the backend
-    Backend {
-        id: backend
-        onFilePathChanged: console.log("Path:", filePath)
-        onFileContentChanged: console.log("Data:", fileContent)
-    }
-
-    // File Dialogs Popups
-    // FileDialog {
-    //     id: openDialog
-    //     title: "Please select a file to open"
-    //     fileMode: FileDialog.OpenFile
-    //     nameFilters: ["Text Files (*.txt)"]
-
-    //     onAccepted: {
-    //         backend.filePath = openDialog.selectedFile
-    //         editor.text = backend.fileContent
-    //     }
-    // }
-
-    // FileDialog {
-    //     id: saveDialog
-    //     title: "Please select a file to save"
-    //     fileMode: FileDialog.SaveFile
-    //     nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
-
-    //     onAccepted: {
-    //         backend.filePath = saveDialog.selectedFile
-    //         backend.fileContent = editor.text
-    //     }
-    // }
-
-    // File Menu Options
-    // Action {
-    //     id: actionNew
-    //     text: qsTr("&New...")
-
-    //     onTriggered: editor.clear()
-    // }
-
-    // Action {
-    //     id: actionOpen
-    //     text: qsTr("&Open...")
-
-    //     onTriggered: openDialog.open()
-    // }
-
-    // Action {
-    //     id: actionSave
-    //     text: qsTr("&Save")
-
-    //     enabled: backend.filePath !== ''
-
-
-    //     onTriggered: {
-    //         backend.fileContent = editor.text
-    //     }
-    // }
-
-    // Action {
-    //     id: actionSaveAs
-    //     text: qsTr("&Save As...")
-
-    //     onTriggered: saveDialog.open()
-    // }
-
-    // Action {
-    //     id: actionQuit
-    //     text: qsTr("&Quit")
-
-    //     onTriggered: Qt.quit()
-    // }
-
-    // // Edit Menu Options
-    // Action {
-    //     id: actionCopy
-    //     text: qsTr("&Copy...")
-
-    //     onTriggered: editor.copy()
-    // }
-
-    // Action {
-    //     id: actionCut
-    //     text: qsTr("&Cut...")
-
-    //     onTriggered: editor.cut()
-    // }
-
-    // Action {
-    //     id: actionPaste
-    //     text: qsTr("&Paste...")
-
-    //     onTriggered: editor.paste()
-    // }
-
+    // Menu Bar
     CustomMenuBar {
-        // General Setup
+        // General
+        // For the dropdown outside the mouse area
+        windowWidth: root.width
         windowHeight: root.height
+
+        // Reference to the Text Editor
         textEditor: editor
 
-        // Size
-        width: menuBarWidth
+        // Menu Bar Size
+        bodyWidth: root.menuBarWidth
         bodyHeight: root.menuBarHeight
     }
 
+    // Text Editor
     ScrollView {
         id: scrollView
 
-        // Size
+        // Text Editor Scroll Size
         width: root.width
         height: root.height
 
-        // Position
+        // Text Editor Scroll Position
         y: root.menuBarHeight
 
-        // Scroll bar policy settings
+        // Text Editor Scroll Bar Policy
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
+        // Text Editor Area
         TextArea {
             id: editor
 
-            // Position
+            // Text Editor Area Position
             y: parent.y
 
-            // Text setup
+            // Text Editor Area Text
             text: ""
-            color: "#ffffff"
             font.pointSize: 14
+            color: "#ffffff"
 
+            // Text Editor Area Setups
             // Enable text wrapping to break anywhere
             wrapMode: TextEdit.WrapAnywhere
-
             // !Enable focus and mouse interaction
             focus: true
             selectByMouse:  true
-
             // !Allow persistent selection for copy-paste
             persistentSelection: true
 
-            // Background
+            // Text Editor Background
             background: Rectangle {
-                id: backgroundEditor
+                id: editorBackground
 
-                // Position
+                // Text Editor Background Position
                 y: editor.y
 
-                // Background color
-                color: backgroundEditorColor
+                // Text Editor Background Color
+                color: editorBackgroundColor
             }
         }
     }
-
 }
+
+
+// File Dialogs Popups
+// FileDialog {
+//     id: openDialog
+//     title: "Please select a file to open"
+//     fileMode: FileDialog.OpenFile
+//     nameFilters: ["Text Files (*.txt)"]
+
+//     onAccepted: {
+//         backend.filePath = openDialog.selectedFile
+//         editor.text = backend.fileContent
+//     }
+// }
+
+// FileDialog {
+//     id: saveDialog
+//     title: "Please select a file to save"
+//     fileMode: FileDialog.SaveFile
+//     nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
+
+//     onAccepted: {
+//         backend.filePath = saveDialog.selectedFile
+//         backend.fileContent = editor.text
+//     }
+// }
+
+
+// Action {
+//     id: actionOpen
+//     text: qsTr("&Open...")
+
+//     onTriggered: openDialog.open()
+// }
+
+// Action {
+//     id: actionSave
+//     text: qsTr("&Save")
+
+//     enabled: backend.filePath !== ''
+
+
+//     onTriggered: {
+//         backend.fileContent = editor.text
+//     }
+// }
+
+// Action {
+//     id: actionSaveAs
+//     text: qsTr("&Save As...")
+
+//     onTriggered: saveDialog.open()
+// }
+
+

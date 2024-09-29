@@ -17,6 +17,9 @@ Item {
     property string text: "Default"
     property int textSize: 12
 
+    // Text Alignment
+    property string textAlignment: "center"
+
     // Clicked Signal
     signal clicked()
 
@@ -38,7 +41,12 @@ Item {
             id: text
 
             // Text Position
-            anchors.centerIn: body
+            anchors.verticalCenter: body.verticalCenter
+            anchors.horizontalCenter: (root.textAlignment === "center" ? parent.horizontalCenter : undefined)
+            anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
+            // Add a margin if left aligned
+            anchors.leftMargin: (root.textAlignment === "left" ? 20 : 0)
+            //anchors.centerIn: body
 
             // Text Setup
             text: root.text

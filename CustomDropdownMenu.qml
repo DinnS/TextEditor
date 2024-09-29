@@ -4,11 +4,12 @@ import QtQuick
 Item {
     id: root
 
-    // Reference to the Text Editor
-    property Item textEditor
-
     // General Visibility
     property bool generalVisibility: false
+
+    // Window Info for MouseArea
+    property int windowWidth: 640
+    property int windowHeight: 480
 
     // Model Of Items
     property var menuItems: []
@@ -21,6 +22,7 @@ Item {
 
     // Item Size
     property int itemHeight: 50
+    property int itemSpacing: 10
 
     // Item Text Setup
     property int itemTextSize: 12
@@ -30,9 +32,12 @@ Item {
         id: outsideMouseArea
 
         // Outside Mouse Area Size
-        anchors.fill: root
+        //anchors.fill: root
+        width: root.windowWidth
+        height: root.windowHeight
 
         // Outside Mouse Area Position
+        x: -root.itemSpacing
         // Ensuring this is below dropdown
         z: -1
 
@@ -84,30 +89,28 @@ Item {
 
                     // Body Item Color
                     bodyColorDefault: "#00000000"
-                    bodyColorHover: "#383838"
+                    bodyColorHover: modelData.enabled ? "#383838" : bodyColorDefault
 
-                    textColorDefault: "#ffffff"
-                    textColorHover: "#ffffff"
-                    textColorPressed: "#ffffff"
+                    textColorDefault: modelData.enabled ? "#ffffff" : "#4c4c4c"
+                    textColorHover: modelData.enabled ? "#ffffff" : "#4c4c4c"
+                    textColorPressed: modelData.enabled ? "#ffffff" : "#4c4c4c"
 
                     // Body Item Dynamic Text
                     text: modelData.text
                     textSize: root.itemTextSize
+                    textAlignment: "left"
 
                     // Body Item Clicked Event
                     onClicked: {
                         // Call the action function
-                        modelData.action()
+                        modelData.enabled ? modelData.action() : null
 
                         // If Clicked, than Close Dropdown
-                        root.generalVisibility = false
+                        root.generalVisibility = modelData.enabled ? false : true
                     }
                 }
 
             }
-
-
-
         }
     }
 
