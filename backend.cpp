@@ -40,7 +40,6 @@ void Backend::setFilePath(QString value)
     emit filePathChanged();
 }
 
-
 void Backend::setFileContent(QString value)
 {
     QFile file(m_filePath);

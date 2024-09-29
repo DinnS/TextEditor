@@ -5,4 +5,7 @@
         <file>CustomButton.qml</file>
         <file>CustomDropdownMenu.qml</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file>icons/IconNotepad.png</file>
+    </qresource>
 </RCC>

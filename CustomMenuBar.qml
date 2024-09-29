@@ -14,6 +14,9 @@ Item {
     // Reference to the Text Editor
     property Item textEditor
 
+    // Reference to the Window Title
+    property string windowTitleReference: "Text Editor - Untitled"
+
     // Body Size
     property int bodyWidth: root.width
     property int bodyHeight: root.height
@@ -155,7 +158,8 @@ Item {
             {
                 text: "New",
                 action: function() {
-                    textEditor.clear();
+                    textEditor.clear()
+                    root.windowTitleReference = "Text Editor - Untitled"
                 },
                 enabled: true
             },
@@ -169,8 +173,6 @@ Item {
             {
                 text: "Save",
                 action: function() {
-                    //dropdownMenuFile.enabled = backend.filePath !== ''
-
                     backend.fileContent = textEditor.text
                 },
                 enabled: backend.filePath !== ''
@@ -235,8 +237,20 @@ Item {
     Backend {
         id: backend
         // Backend Debug
-        onFilePathChanged: console.log("Path:", filePath)
-        onFileContentChanged: console.log("Data:", fileContent)
+        // onFilePathChanged: console.log("Path:", filePath)
+        // onFileContentChanged: console.log("Data:", fileContent)
+        // Dynamic update the window title
+        onFilePathChanged: {
+            if (filePath !== "") {
+                // Extract the file name
+                var fileName = filePath.split("/").pop().split(".")[0];
+                // Update the title
+                root.windowTitleReference = "Text Editor - " + fileName;
+            } else {
+                // Update the title when no file is open
+                root.windowTitleReference = "Text Editor - Untitled";
+            }
+        }
     }
 
     // File Dialogs Popups
@@ -256,7 +270,8 @@ Item {
         id: saveDialog
         title: "Please select a file to save"
         fileMode: FileDialog.SaveFile
-        nameFilters: ["Text Files (*.txt)"] // "All Files (*)"
+        // "All Files (*)"
+        nameFilters: ["Text Files (*.txt)"]
 
         onAccepted: {
             backend.filePath = saveDialog.selectedFile

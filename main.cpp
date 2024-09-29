@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QIcon>
 #include "backend.h"
 
 int main(int argc, char *argv[])
@@ -8,6 +9,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+
+    // Set the application icon
+    app.setWindowIcon(QIcon(":/icons/icons/IconNotepad.png"));
 
     // Register C++ class for using in QML
     qmlRegisterType<Backend>("org.din.backend", 1, 0, "Backend");
