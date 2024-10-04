@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 
 // Dropdown Menu
 Item {
@@ -14,25 +15,37 @@ Item {
     // Model Of Items
     property var menuItems: []
 
+    // Theme Colors
+    CustomColors {
+        id: themeColors
+    }
+
     // Body Size
     readonly property int bodyWidth: 125
 
     // Body Color
-    readonly property color bodyColor: "#2b2b2b"
+    readonly property color bodyColor: isDarkThemeReference ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
+
+    readonly property color itemColorHover: isDarkThemeReference ? themeColors.darkMenuHover : themeColors.lightMenuHover
 
     // Item Size
     property int itemHeight: 50
     property int itemSpacing: 10
 
+    // Item Text Color
+    readonly property color itemTextColorDefault: isDarkThemeReference ? themeColors.darkTextDefault : themeColors.lightTextDefault
+
     // Item Text Setup
     property int itemTextSize: 12
+
+    // Reference to Is Dark Theme
+    property bool isDarkThemeReference
 
     // Outside Mouse Area To Detect Click From Outside
     MouseArea {
         id: outsideMouseArea
 
         // Outside Mouse Area Size
-        //anchors.fill: root
         width: root.windowWidth
         height: root.windowHeight
 
@@ -88,12 +101,12 @@ Item {
                     height: root.itemHeight
 
                     // Body Item Color
-                    bodyColorDefault: "#00000000"
-                    bodyColorHover: modelData.enabled ? "#383838" : bodyColorDefault
+                    buttonColorDefault: "#00000000"
+                    buttonColorHover: modelData.enabled ? root.itemColorHover : buttonColorDefault
 
-                    textColorDefault: modelData.enabled ? "#ffffff" : "#4c4c4c"
-                    textColorHover: modelData.enabled ? "#ffffff" : "#4c4c4c"
-                    textColorPressed: modelData.enabled ? "#ffffff" : "#4c4c4c"
+                    textColorDefault: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
+                    textColorHover: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
+                    textColorPressed: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
 
                     // Body Item Dynamic Text
                     text: modelData.text

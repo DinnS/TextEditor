@@ -4,15 +4,22 @@ import QtQuick
 Item {
     id: root
 
+    // Theme Colors
+    CustomColors {
+        id: themeColors
+    }
+
+    // Theme Changer
+    property bool isDarkTheme: true
+
     // Body Color
-    property color bodyColorDefault: "#1a2127"
-    property color bodyColorHover: "#4a4a4a"
+    property color buttonColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
+    property color buttonColorHover: root.isDarkTheme ? themeColors.darkMenuHover : themeColors.lightMenuHover
 
     // Text Color
-    property color textColorDefault: "#ffffff"
-    property color textColorHover: "#4a4a4a"
-    property color textColorPressed: "#4a4a4a"
-
+    property color textColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    property color textColorHover: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    property color textColorPressed: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
     // Text Setup
     property string text: "Default"
     property int textSize: 12
@@ -23,6 +30,12 @@ Item {
     // Clicked Signal
     signal clicked()
 
+    // To instantly change colors after changing the theme
+    onIsDarkThemeChanged: {
+        body.color = root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
+        text.color = root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    }
+
     // Body
     Rectangle {
         id: body
@@ -31,7 +44,7 @@ Item {
         anchors.fill: root
 
         // Body Color
-        color: root.bodyColorDefault
+        color: root.buttonColorDefault
 
         // Body Radius
         radius: 7
@@ -46,7 +59,6 @@ Item {
             anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
             // Add a margin if left aligned
             anchors.leftMargin: (root.textAlignment === "left" ? 20 : 0)
-            //anchors.centerIn: body
 
             // Text Setup
             text: root.text
@@ -69,7 +81,7 @@ Item {
             // Mouse Area Pressed Event
             onPressed: {
                 // If Pressed, than Change Button Body Color
-                body.color = root.bodyColorHover
+                body.color = root.buttonColorHover
 
                 // If Pressed, than Invoke Custom Click Event
                 root.clicked()
@@ -78,13 +90,13 @@ Item {
             // Mouse Area Entered Event
             onEntered: {
                 // If Entered, than Change Button Body Color
-                body.color = root.bodyColorHover
+                body.color = root.buttonColorHover
             }
 
             // Mouse Area Exited Event
             onExited: {
                 // If Exited, than Change Button Body Color
-                body.color = root.bodyColorDefault
+                body.color = root.buttonColorDefault
             }
         }
     }

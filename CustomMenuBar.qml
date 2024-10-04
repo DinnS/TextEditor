@@ -17,12 +17,17 @@ Item {
     // Reference to the Window Title
     property string windowTitleReference: "Text Editor - Untitled"
 
+    // Theme Colors
+    CustomColors {
+        id: themeColors
+    }
+
     // Body Size
     property int bodyWidth: root.width
     property int bodyHeight: root.height
 
     // Body Color
-    property color bodyColorDefault: "#1a2127"
+    property color bodyColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
 
     // Item Size
     readonly property int itemWidth: 80
@@ -32,14 +37,19 @@ Item {
     readonly property int subitemXFix: 4
 
     // Item Color
-    readonly property color itemDefaultColor: "#1a2127"
+    readonly property color itemDefaultColor: root.isDarkTheme ? "#1a2127" : "#f2f4f9"
     readonly property color itemHoverColor: "#4a4a4a"
 
     // Text Color
-    readonly property color textColor: "#ffffff"
+    readonly property color textColorDefault: root.isDarkTheme ? "#ffffff" : "#000000"
+    readonly property color textColorHover: root.isDarkTheme ? "#ffffff" : "#000000"
+    readonly property color textColorPressed: root.isDarkTheme ? "#ffffff" : "#000000"
 
     // Text Setup
     readonly property int textSize: 11
+
+    // Theme Switcher
+    readonly property bool isDarkTheme: themeSwitcher.isDarkTheme
 
     // Ensuring this is in top
     z: 1
@@ -80,18 +90,22 @@ Item {
             CustomButton {
                 id: bodyItemFile
 
+                isDarkTheme: root.isDarkTheme
+
                 // Body Item Size
                 width: root.itemWidth
                 height: root.itemHeight
 
-                // Body Item Color
-                bodyColorDefault: root.itemDefaultColor
-                bodyColorHover: root.itemHoverColor
+                //colorTest: isDarkTheme ? "#1a2127" : "#f2f4f9"
 
-                // Body Item Text Color
-                textColorDefault: "#ffffff"
-                textColorHover: "#ffffff"
-                textColorPressed: "#ffffff"
+                // // Body Item Color
+                // bodyColorDefault: root.itemDefaultColor
+                // bodyColorHover: root.itemHoverColor
+
+                // // Body Item Text Color
+                // textColorDefault: root.textColorDefault
+                // textColorHover: root.textColorHover
+                // textColorPressed: root.textColorPressed
 
                 // Body Item Text
                 text: "File"
@@ -105,6 +119,7 @@ Item {
                     // If Clicked, than Toggle Dropdown
                     dropdownMenuFile.generalVisibility = !dropdownMenuFile.generalVisibility
                 }
+
             }
 
             // Body Item Edit
@@ -115,13 +130,18 @@ Item {
                 width: root.itemWidth
                 height: root.itemHeight
 
-                // Body Item Color
-                bodyColorDefault: root.itemDefaultColor
-                bodyColorHover: root.itemHoverColor
+                isDarkTheme: root.isDarkTheme
 
-                textColorDefault: "#ffffff"
-                textColorHover: "#ffffff"
-                textColorPressed: "#ffffff"
+
+
+                // // Body Item Color
+                // bodyColorDefault: root.itemDefaultColor
+                // bodyColorHover: root.itemHoverColor
+
+                // // Body Item Text Color
+                // textColorDefault: root.textColorDefault
+                // textColorHover: root.textColorHover
+                // textColorPressed: root.textColorPressed
 
                 // Body Item Text
                 text: "Edit"
@@ -135,14 +155,32 @@ Item {
                     // If Clicked, than Toggle Dropdown
                     dropdownMenuEdit.generalVisibility = !dropdownMenuEdit.generalVisibility
                 }
-            }
 
+
+            }
+        }
+
+        // Body Theme Switcher
+        ThemeSwitcher {
+            id: themeSwitcher
+
+            // Theme Switcher Size
+            itemWidth: 60
+            itemHeight: body.height - 10
+
+            // Theme Switcher Position
+            anchors.right: body.right
+            anchors.rightMargin: 40
+            anchors.verticalCenter: body.verticalCenter
         }
     }
 
     // Dropdown Menu File
-    CustomDropdownMenu {
+    CustomMenuDropdown {
         id: dropdownMenuFile
+
+        // Reference to Is Dark Theme
+        isDarkThemeReference: isDarkTheme
 
         // Dropdown Mouse Area Size
         windowWidth: root.windowWidth
@@ -195,8 +233,11 @@ Item {
     }
 
     // Dropdown Menu Edit
-    CustomDropdownMenu {
+    CustomMenuDropdown {
         id: dropdownMenuEdit
+
+        // Reference to Is Dark Theme
+        isDarkThemeReference: isDarkTheme
 
         // Dropdown Menu Size
         windowWidth: root.windowWidth
@@ -236,9 +277,7 @@ Item {
     // Connecting to the backend
     Backend {
         id: backend
-        // Backend Debug
-        // onFilePathChanged: console.log("Path:", filePath)
-        // onFileContentChanged: console.log("Data:", fileContent)
+
         // Dynamic update the window title
         onFilePathChanged: {
             if (filePath !== "") {
@@ -280,5 +319,4 @@ Item {
     }
 
 }
-
 

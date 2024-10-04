@@ -3,9 +3,13 @@
         <file>main.qml</file>
         <file>CustomMenuBar.qml</file>
         <file>CustomButton.qml</file>
-        <file>CustomDropdownMenu.qml</file>
+        <file>CustomMenuDropdown.qml</file>
+        <file>ThemeSwitcher.qml</file>
+        <file>CustomColors.qml</file>
     </qresource>
     <qresource prefix="/icons">
-        <file>icons/IconNotepad.png</file>
+        <file>icons/IconApp.png</file>
+        <file>icons/IconDarkMode.png</file>
+        <file>icons/IconLightMode.png</file>
     </qresource>
 </RCC>

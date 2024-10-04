@@ -11,12 +11,13 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     // Set the application icon
-    app.setWindowIcon(QIcon(":/icons/icons/IconNotepad.png"));
+    app.setWindowIcon(QIcon(":/icons/icons/IconApp.png"));
 
     // Register C++ class for using in QML
     qmlRegisterType<Backend>("org.din.backend", 1, 0, "Backend");
 
     QQmlApplicationEngine engine;
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
         &engine,
