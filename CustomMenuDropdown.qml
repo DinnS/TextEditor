@@ -79,7 +79,8 @@ Item {
         color: root.bodyColor
 
         // Body Radius
-        radius: 10
+        bottomLeftRadius: 12
+        bottomRightRadius: 12
 
         // Body Column
         Column {

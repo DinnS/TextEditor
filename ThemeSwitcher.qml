@@ -26,12 +26,12 @@ Item {
 
     // Switch Light Color
     property color lightColor: "#f4edf4"
-    property color lightBorderColorActive: "#EC4E20"
+    property color lightBorderColorActive: "#E26D5A"
     property color lightBorderColorDisable: "transparent"
 
     // Switch Dark Color
     property color darkColor: "#2C302E"
-    property color darkBorderColorActive: "#EC4E20"
+    property color darkBorderColorActive: "#E26D5A"
     property color darkBorderColorDisable: "transparent"
 
     // Switch Container

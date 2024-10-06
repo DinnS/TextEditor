@@ -13,7 +13,6 @@ ApplicationWindow {
 
     // Window Setup
     title: menuBar.windowTitleReference
-
     visible: true
 
     // Theme Colors
@@ -55,33 +54,90 @@ ApplicationWindow {
     }
 
     // Text Editor
-    ScrollView {
+    Flickable  {
         id: scrollView
+        clip: true
 
         // Text Editor Scroll Size
-        width: root.width
-        height: root.height
+        contentWidth: editor.contentWidth
+        contentHeight: editor.contentHeight  + 35
+
+        // Text Editor Scroll Signal Size
+        onContentWidthChanged: {
+            scrollView.contentX = scrollView.contentWidth > (root.width - 35) ? (scrollView.contentWidth - scrollView.width) + 40 : scrollView.contentX
+            scrollBarHorizontal.policy = scrollView.contentWidth > (root.width - 35) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        }
+
+        onContentHeightChanged: {
+            scrollView.contentY = scrollView.contentHeight > (root.height - 20) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
+            scrollBarVertical.policy = scrollView.contentHeight > (root.height - 20) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        }
 
         // Text Editor Scroll Position
-
         anchors.top: parent.top
         anchors.topMargin: root.menuBarHeight - 5
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        // Text Editor Setup
+        boundsBehavior: Flickable.StopAtBounds
 
-        // Text Editor Scroll Bar Policy
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        // Text Editor Vertical ScrollBar
+        ScrollBar.vertical: ScrollBar {
+            id : scrollBarVertical
+
+            policy: ScrollBar.AsNeeded
+
+            height: scrollView.height
+            anchors.right: parent.right
+
+            contentItem: Item {
+                implicitWidth: 14
+
+                Rectangle {
+                    color: root.editorCursorTextColor
+                    anchors.fill: parent
+                    anchors.topMargin: 6
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 4
+                    anchors.bottomMargin: 6
+                    radius: 15
+                }
+            }
+        }
+
+        // Text Editor horizontal ScrollBar
+        ScrollBar.horizontal: ScrollBar {
+            id : scrollBarHorizontal
+
+            policy: ScrollBar.AlwaysOn
+
+            width: scrollView.width
+            anchors.bottom: parent.bottom
+
+            contentItem: Item {
+                implicitHeight: 16
+
+                Rectangle {
+                    color: root.editorCursorTextColor
+                    anchors.fill: parent
+                    anchors.topMargin: 6
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 4
+                    anchors.bottomMargin: 6
+                    radius: 15
+                }
+            }
+        }
 
         // Text Editor Area
         TextArea {
             id: editor
 
             // Text Editor Area Size
-            width: root.width
-            height: root.height
+            width:  root.editorTextWrapOn ? root.width : editor.contentWidth + root.width
+            height: editor.contentHeight + root.height
 
             // Text Editor Area Position
             topPadding: 20
@@ -137,8 +193,8 @@ ApplicationWindow {
             }
 
             // Text Editor Area Setups
-            // Enable text wrapping to break anywhere
             wrapMode: root.editorTextWrapOn ? TextEdit.WrapAnywhere : TextEdit.NoWrap
+
             // !Enable focus and mouse interaction
             focus: true
             selectByMouse:  true
@@ -149,8 +205,10 @@ ApplicationWindow {
             background: Rectangle {
                 id: editorBackground
 
+                width: editor.width
+                height: editor.height
                 // Text Editor Background Color
-                color: editorBackgroundColor
+                color: root.editorBackgroundColor
             }
 
         }
