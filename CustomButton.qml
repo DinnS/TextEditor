@@ -14,7 +14,7 @@ Item {
 
     // Body Color
     property color buttonColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
-    property color buttonColorHover: root.isDarkTheme ? themeColors.darkMenuHover : themeColors.lightMenuHover
+    property color buttonColorHover: root.isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Text Color
     property color textColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault

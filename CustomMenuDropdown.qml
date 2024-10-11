@@ -26,7 +26,7 @@ Item {
     // Body Color
     readonly property color bodyColor: isDarkThemeReference ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
 
-    readonly property color itemColorHover: isDarkThemeReference ? themeColors.darkMenuHover : themeColors.lightMenuHover
+    readonly property color itemColorHover: isDarkThemeReference ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Item Size
     property int itemHeight: 50

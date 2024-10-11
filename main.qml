@@ -35,7 +35,12 @@ ApplicationWindow {
     readonly property int editorTextSize: 14
 
     // Editor Text Wrap Mode
-    readonly property bool editorTextWrapOn: true
+    readonly property bool editorTextWrapOn: false
+
+    // Scroll Bar Appearance
+    readonly property int scrollBarSize: 9
+    readonly property int scrollBarRadius: 15
+    readonly property color scrollBarColor: menuBar.isDarkTheme ? themeColors.darkScrollBar : themeColors.lightScrollBar
 
     // Menu Bar
     CustomMenuBar {
@@ -58,51 +63,65 @@ ApplicationWindow {
         id: scrollView
         clip: true
 
-        // Text Editor Scroll Size
-        contentWidth: editor.contentWidth
-        contentHeight: editor.contentHeight  + 35
+        // Text Editor Properties For Fixing Position
+        property int editorWidthFix: 45
+        property int editorHeightFix: 70
 
-        // Text Editor Scroll Signal Size
+        // Text Editor Scroll Size
+        contentWidth: editor.contentWidth + editorWidthFix
+        contentHeight: editor.contentHeight + editorHeightFix
+
+        // Text Editor Scroll Signal When Content Width Change
         onContentWidthChanged: {
-            scrollView.contentX = scrollView.contentWidth > (root.width - 35) ? (scrollView.contentWidth - scrollView.width) + 40 : scrollView.contentX
-            scrollBarHorizontal.policy = scrollView.contentWidth > (root.width - 35) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            // Auto scroll when the text goes beyond the screen
+            scrollView.contentX = (scrollView.contentWidth >= root.width) ? (scrollView.contentWidth - scrollView.width) : scrollView.contentX
+            // Show scrollbar if necessary
+            scrollBarHorizontal.policy = (scrollView.contentWidth >= root.width) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
+        // Text Editor Scroll Signal When Content Height Change
         onContentHeightChanged: {
-            scrollView.contentY = scrollView.contentHeight > (root.height - 20) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
-            scrollBarVertical.policy = scrollView.contentHeight > (root.height - 20) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            // Auto scroll when the text goes beyond the screen
+            scrollView.contentY = scrollView.contentHeight >= (root.height) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
+            // Show scrollbar if necessary
+            scrollBarVertical.policy = scrollView.contentHeight >= (root.height) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
         // Text Editor Scroll Position
         anchors.top: parent.top
-        anchors.topMargin: root.menuBarHeight - 5
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        anchors.topMargin: root.menuBarHeight
+
+
         // Text Editor Setup
+        // Off bounce animation
         boundsBehavior: Flickable.StopAtBounds
 
         // Text Editor Vertical ScrollBar
         ScrollBar.vertical: ScrollBar {
             id : scrollBarVertical
 
-            policy: ScrollBar.AsNeeded
-
+            // Vertical Scroll Bar Size
+            width: root.scrollBarSize
             height: scrollView.height
+
+            // Verical Scroll Bar Position
             anchors.right: parent.right
 
+            // Vertical Scroll Bar Appearance
             contentItem: Item {
-                implicitWidth: 14
-
                 Rectangle {
-                    color: root.editorCursorTextColor
+                    // Scroll Bar Size
                     anchors.fill: parent
-                    anchors.topMargin: 6
-                    anchors.leftMargin: 5
-                    anchors.rightMargin: 4
-                    anchors.bottomMargin: 6
-                    radius: 15
+
+                    // Scroll Bar Color
+                    color: root.scrollBarColor
+
+                    // Scroll Bar Rounding
+                    radius: root.scrollBarRadius
                 }
             }
         }
@@ -111,22 +130,24 @@ ApplicationWindow {
         ScrollBar.horizontal: ScrollBar {
             id : scrollBarHorizontal
 
-            policy: ScrollBar.AlwaysOn
-
+            // Horizontal Scroll Bar Size
             width: scrollView.width
+            height: root.scrollBarSize
+
+            // Horizontal Scroll Bar Position
             anchors.bottom: parent.bottom
 
+            // Horizontal Scroll Bar Appearance
             contentItem: Item {
-                implicitHeight: 16
-
                 Rectangle {
-                    color: root.editorCursorTextColor
+                    // Scroll Bar Size
                     anchors.fill: parent
-                    anchors.topMargin: 6
-                    anchors.leftMargin: 5
-                    anchors.rightMargin: 4
-                    anchors.bottomMargin: 6
-                    radius: 15
+
+                    // Scroll Bar Color
+                    color: root.scrollBarColor
+
+                    // Scroll Bar Rounding
+                    radius: root.scrollBarRadius
                 }
             }
         }
@@ -205,9 +226,11 @@ ApplicationWindow {
             background: Rectangle {
                 id: editorBackground
 
+                // Background Size
                 width: editor.width
                 height: editor.height
-                // Text Editor Background Color
+
+                // Background Color
                 color: root.editorBackgroundColor
             }
 
