@@ -13,7 +13,7 @@ The project was developed for educational purposes and is not intended for real-
 - Write, copy, and paste text
 - Open and save text files
 - Theme switching (Light/Dark mode) with animated border effects
-- Option to enable/disable border color animation
+- Option to enable/disable Theme Switching border color animation
 - Toggle text wrapping for easier text viewing
 
 ## Installation (Windows)

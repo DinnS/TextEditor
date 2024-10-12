@@ -34,9 +34,11 @@ void Backend::setFilePath(QString value)
     if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
     } else {
-        m_filePath = value; // Handle or log if the URL is not a local file
+        // Handle or log if the URL is not a local file
+        m_filePath = value;
     }
-    qDebug() << "m_filePath:" << m_filePath; // Debug output to verify the path
+    // Debug output to verify the path
+    qDebug() << "m_filePath:" << m_filePath;
     emit filePathChanged();
 }
 
