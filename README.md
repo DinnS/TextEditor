@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a simple text editor inspired by Notepad and created using **Qt**. It includes basic functionality for writing, copying, pasting, opening and saving text files. 
+This is a simple text editor inspired by Notepad and created using **Qt**. It includes basic functionality for writing, copying, pasting, opening and saving text files, along with customization features like theme switching and text wrapping.  
 The project was developed for educational purposes and is not intended for real-world use.
 
 ### Core Technologies:
@@ -12,6 +12,9 @@ The project was developed for educational purposes and is not intended for real-
 ## Features
 - Write, copy, and paste text
 - Open and save text files
+- Theme switching (Light/Dark mode) with animated border effects
+- Option to enable/disable border color animation
+- Toggle text wrapping for easier text viewing
 
 ## Installation (Windows)
 To install the application, follow these steps:
