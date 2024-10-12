@@ -9,7 +9,9 @@
     </qresource>
     <qresource prefix="/icons">
         <file>icons/IconApp.png</file>
-        <file>icons/IconDarkMode.png</file>
-        <file>icons/IconLightMode.png</file>
+        <file>icons/IconDarkMode.svg</file>
+        <file>icons/IconLightMode.svg</file>
+        <file>icons/IconDarkCheck.svg</file>
+        <file>icons/IconLightCheck.svg</file>
     </qresource>
 </RCC>

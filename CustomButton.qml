@@ -1,25 +1,38 @@
 import QtQuick
 
-// Button
+/*    BUTTON    */
 Item {
     id: root
 
-    // Theme Colors
+    /*    THEME COLORS    */
+
+    /*
+    Provide Access to the Colors Library
+    !!!Not the best approach
+    */
     CustomColors {
         id: themeColors
     }
 
-    // Theme Changer
+    /*    STATUS PROPERTIES    */
     property bool isDarkTheme: true
+    property bool isTextWrap: true
+    property bool isButtonWithIcon: false
+
+    // Icons Source
+    property url iconLightSource: "qrc:/icons/icons/IconLightCheck.svg"
+    property url iconDarkSource: "qrc:/icons/icons/IconDarkCheck.svg"
+    property url iconSource: root.isDarkTheme ? root.iconLightSource : root.iconDarkSource
 
     // Body Color
-    property color buttonColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
+    property color buttonColorDefault: root.isDarkTheme ? themeColors.darkButtonDefault : themeColors.lightButtonDefault
     property color buttonColorHover: root.isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Text Color
     property color textColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
     property color textColorHover: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
     property color textColorPressed: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+
     // Text Setup
     property string text: "Default"
     property int textSize: 12
@@ -30,74 +43,106 @@ Item {
     // Clicked Signal
     signal clicked()
 
-    // To instantly change colors after changing the theme
-    onIsDarkThemeChanged: {
-        body.color = root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
-        text.color = root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    /*    INDICATOR ICON    */
+    Image {
+        id: indicatorIcon
+
+        source: root.isDarkTheme ? root.iconLightSource : root.iconDarkSource
+
+        width: 15
+        height: 15
+        sourceSize.width: 15
+        sourceSize.height: 15
+
+        opacity: root.isTextWrap ? 1.0 : 0
+
+        // Position
+        anchors.verticalCenter: body.verticalCenter
+        anchors.horizontalCenter: (root.textAlignment === "center" ? parent.horizontalCenter : undefined)
+        anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
+        // Add a margin if left aligned
+        anchors.leftMargin: (root.textAlignment === "left" ? 20 : 0)
+
+        visible: root.isButtonWithIcon
+
+        z: 1
     }
 
-    // Body
+    /*    BODY    */
     Rectangle {
         id: body
 
-        // Body Size
-        anchors.fill: root
+        // Size
+        width: root.width
+        height: root.height
 
-        // Body Color
+        // Color
         color: root.buttonColorDefault
 
-        // Body Radius
+        // Radius
         radius: 7
 
-        // Text
+        /*    BODY TEXT    */
         Text {
             id: text
 
-            // Text Position
+            // Position
             anchors.verticalCenter: body.verticalCenter
             anchors.horizontalCenter: (root.textAlignment === "center" ? parent.horizontalCenter : undefined)
             anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
             // Add a margin if left aligned
-            anchors.leftMargin: (root.textAlignment === "left" ? 20 : 0)
+            anchors.leftMargin: (root.isButtonWithIcon ? (root.textAlignment === "left" ? 50 : 0) : (root.textAlignment === "left" ? 20 : 0))
 
-            // Text Setup
+            // Text
             text: root.text
             font.pointSize: root.textSize
 
-            // Text Color
+            // Color
             color: root.textColorDefault
         }
+    }
 
-        // Mouse Area
-        MouseArea {
-            id: mouseArea
+    /*    INTERACTIONS    */
 
-            // Mouse Area Size
-            anchors.fill: body
+    MouseArea {
+        id: mouseArea
 
-            // Mouse Area Setup
-            hoverEnabled: true
+        // Size
+        anchors.fill: root
 
-            // Mouse Area Pressed Event
-            onPressed: {
-                // If Pressed, than Change Button Body Color
-                body.color = root.buttonColorHover
+        // General
+        hoverEnabled: true
 
-                // If Pressed, than Invoke Custom Click Event
-                root.clicked()
-            }
+        // Pressed Event
+        onPressed: {
+            /*
+            If Pressed, then Change Button Body Color
+            */
+            body.color = root.buttonColorHover
 
-            // Mouse Area Entered Event
-            onEntered: {
-                // If Entered, than Change Button Body Color
-                body.color = root.buttonColorHover
-            }
+            /*
+            If Pressed, then Invoke Custom Click Event
+            */
+            root.clicked()
+        }
 
-            // Mouse Area Exited Event
-            onExited: {
-                // If Exited, than Change Button Body Color
-                body.color = root.buttonColorDefault
-            }
+        // Entered Event
+        onEntered: {
+            /*
+            If Entered, then Change Button Body Color
+            */
+            body.color = root.buttonColorHover
+        }
+
+        // Exited Event
+        onExited: {
+            /*
+            If Exited, then Change Button Body Color
+            */
+            body.color = root.buttonColorDefault
         }
     }
+
+
+
 }

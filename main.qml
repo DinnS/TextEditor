@@ -3,9 +3,11 @@ import QtQuick.Controls.Fusion
 import QtQuick.Window
 import org.din.backend 1.0
 
-// Main Window
+/*    MAIN WINDOW    */
 ApplicationWindow {
-    id: root
+    id: window
+
+    /*    WINDOW PROPERTIES    */
 
     // Window Size
     width: 640
@@ -15,16 +17,27 @@ ApplicationWindow {
     title: menuBar.windowTitleReference
     visible: true
 
-    // Theme Colors
+    /*    THEME COLORS    */
+
+    /*
+    Provide Access to the Colors Library
+    !!!Not the best approach
+    */
     CustomColors {
         id: themeColors
     }
 
-    // Menu Bar
-    readonly property int menuBarWidth: root.width
-    readonly property int menuBarHeight: 50
 
-    // Editor Background
+    /*    MENU BAR PROPERTIES    */
+
+    // Menu Bar Size
+    readonly property int menuBarWidth: window.width
+    readonly property int menuBarHeight: 51
+
+
+    /*    EDITOR PROPERTIES    */
+
+    // Editor Background Color
     readonly property color editorBackgroundColor: menuBar.isDarkTheme ? themeColors.darkEditor : themeColors.lightEditor
 
     // Editor Text Color
@@ -35,65 +48,69 @@ ApplicationWindow {
     readonly property int editorTextSize: 14
 
     // Editor Text Wrap Mode
-    readonly property bool editorTextWrapOn: false
+    readonly property bool editorTextWrapOn: menuBar.isTextWrap
 
-    // Scroll Bar Appearance
+    // Editor Scroll Bar Appearance
     readonly property int scrollBarSize: 9
     readonly property int scrollBarRadius: 15
     readonly property color scrollBarColor: menuBar.isDarkTheme ? themeColors.darkScrollBar : themeColors.lightScrollBar
 
-    // Menu Bar
+
+    /*    MENU BAR    */
     CustomMenuBar {
         id: menuBar
         // General
-        // For the dropdown outside the mouse area
-        windowWidth: root.width
-        windowHeight: root.height
+        /*
+        For Mouse Area to exit the Dropdown
+        */
+        windowWidth: window.width
+        windowHeight: window.height
 
         // Reference to the Text Editor
         textEditor: editor
 
-        // Menu Bar Size
-        bodyWidth: root.menuBarWidth
-        bodyHeight: root.menuBarHeight
+        // Size
+        bodyWidth: window.menuBarWidth
+        bodyHeight: window.menuBarHeight
     }
 
-    // Text Editor
+
+    /*    TEXT EDITOR    */
     Flickable  {
         id: scrollView
         clip: true
 
-        // Text Editor Properties For Fixing Position
+        // Properties For Fixing Position
         property int editorWidthFix: 45
         property int editorHeightFix: 70
 
-        // Text Editor Scroll Size
-        contentWidth: editor.contentWidth + editorWidthFix
-        contentHeight: editor.contentHeight + editorHeightFix
+        // Scroll Size
+        contentWidth: editor.contentWidth + scrollView.editorWidthFix
+        contentHeight: editor.contentHeight + scrollView.editorHeightFix
 
-        // Text Editor Scroll Signal When Content Width Change
+        // Scroll Signal When Content Width Change
         onContentWidthChanged: {
             // Auto scroll when the text goes beyond the screen
-            scrollView.contentX = (scrollView.contentWidth >= root.width) ? (scrollView.contentWidth - scrollView.width) : scrollView.contentX
+            scrollView.contentX = (scrollView.contentWidth >= window.width) ? (scrollView.contentWidth - scrollView.width) : scrollView.contentX
             // Show scrollbar if necessary
-            scrollBarHorizontal.policy = (scrollView.contentWidth >= root.width) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            scrollBarHorizontal.policy = (scrollView.contentWidth >= window.width) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
-        // Text Editor Scroll Signal When Content Height Change
+        // Scroll Signal When Content Height Change
         onContentHeightChanged: {
             // Auto scroll when the text goes beyond the screen
-            scrollView.contentY = scrollView.contentHeight >= (root.height) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
+            scrollView.contentY = scrollView.contentHeight >= (window.height) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
             // Show scrollbar if necessary
-            scrollBarVertical.policy = scrollView.contentHeight >= (root.height) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            scrollBarVertical.policy = scrollView.contentHeight >= (window.height) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
-        // Text Editor Scroll Position
+        // Scroll Position
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        anchors.topMargin: root.menuBarHeight
+        anchors.topMargin: window.menuBarHeight
 
 
         // Text Editor Setup
@@ -105,7 +122,7 @@ ApplicationWindow {
             id : scrollBarVertical
 
             // Vertical Scroll Bar Size
-            width: root.scrollBarSize
+            width: window.scrollBarSize
             height: scrollView.height
 
             // Verical Scroll Bar Position
@@ -118,10 +135,10 @@ ApplicationWindow {
                     anchors.fill: parent
 
                     // Scroll Bar Color
-                    color: root.scrollBarColor
+                    color: window.scrollBarColor
 
                     // Scroll Bar Rounding
-                    radius: root.scrollBarRadius
+                    radius: window.scrollBarRadius
                 }
             }
         }
@@ -132,7 +149,7 @@ ApplicationWindow {
 
             // Horizontal Scroll Bar Size
             width: scrollView.width
-            height: root.scrollBarSize
+            height: window.scrollBarSize
 
             // Horizontal Scroll Bar Position
             anchors.bottom: parent.bottom
@@ -144,21 +161,21 @@ ApplicationWindow {
                     anchors.fill: parent
 
                     // Scroll Bar Color
-                    color: root.scrollBarColor
+                    color: window.scrollBarColor
 
                     // Scroll Bar Rounding
-                    radius: root.scrollBarRadius
+                    radius: window.scrollBarRadius
                 }
             }
         }
 
-        // Text Editor Area
+        /*    TEXT EDITOR CONTENT    */
         TextArea {
             id: editor
 
             // Text Editor Area Size
-            width:  root.editorTextWrapOn ? root.width : editor.contentWidth + root.width
-            height: editor.contentHeight + root.height
+            width:  window.editorTextWrapOn ? window.width : editor.contentWidth + window.width
+            height: editor.contentHeight + window.height
 
             // Text Editor Area Position
             topPadding: 20
@@ -168,10 +185,10 @@ ApplicationWindow {
 
             // Text Editor Area Text
             text: ""
-            font.pointSize: root.editorTextSize
+            font.pointSize: window.editorTextSize
 
             // Text Editor Area Text Color
-            color: root.editorTextColor
+            color: window.editorTextColor
 
             // Text Editor Area Text Cursor
             cursorDelegate: Rectangle {
@@ -181,7 +198,7 @@ ApplicationWindow {
                 width: editor.cursorRectangle.width
 
                 // Text Cursor Color
-                color: root.editorCursorTextColor
+                color: window.editorCursorTextColor
 
                 // Text Cursor Setup
                 visible: false
@@ -214,7 +231,7 @@ ApplicationWindow {
             }
 
             // Text Editor Area Setups
-            wrapMode: root.editorTextWrapOn ? TextEdit.WrapAnywhere : TextEdit.NoWrap
+            wrapMode: window.editorTextWrapOn ? TextEdit.WrapAnywhere : TextEdit.NoWrap
 
             // !Enable focus and mouse interaction
             focus: true
@@ -231,7 +248,7 @@ ApplicationWindow {
                 height: editor.height
 
                 // Background Color
-                color: root.editorBackgroundColor
+                color: window.editorBackgroundColor
             }
 
         }

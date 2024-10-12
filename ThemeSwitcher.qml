@@ -1,24 +1,44 @@
 import QtQuick
 import QtQuick.Controls 2.15
 
-// Theme Switcher
+/*    THEME SWITCHER    */
 Item {
     id: root
+
+
+    /*    THEME COLORS    */
+
+    /*
+    Provide Access to the Colors Library
+    !!!Not the best approach
+    */
+    CustomColors {
+        id: themeColors
+    }
+
+
+    /*    STATUS PROPERTIES    */
+    property bool isDarkTheme: true
+
+
+    /*    THEME SWITCHER SOURCE ICONS    */
+    readonly property url iconLightMode: "qrc:/icons/icons/IconLightMode.svg"
+    readonly property url iconDarkMode: "qrc:/icons/icons/IconDarkMode.svg"
+
+
+    /*    THEME SWITCHER SIZES    */
 
     // Switch Size
     property int itemWidth: 100
     property int itemHeight: 100
 
-    // Icons Source
-    property url iconLightMode: "qrc:/icons/icons/IconLightMode.png"
-    property url iconDarkMode: "qrc:/icons/icons/IconDarkMode.png"
+    // Switch Container
+    width: root.itemWidth * 2
+    height: root.itemHeight
 
-    // Switch Status
-    property bool isDarkTheme: true
 
-    // Switch Border Setup
-    readonly property int switchBorderRadius: 5
-    readonly property int switchBorderWidth: 4
+
+    /*    THEME SWITCHER COLORS    */
 
     // Switch Light Color
     property color lightColor: themeColors.lightThemeSwitcher
@@ -36,37 +56,37 @@ Item {
 
     property color darkBorderColorDisable: themeColors.darkThemeSwitcherBorderDisable
 
-    // Switch Border Color Animation
+
+    /*    THEME SWITCHER BORDER    */
+    // Switch Border
+    readonly property int switchBorderRadius: 5
+    readonly property int switchBorderWidth: 4
+
+    // Switch Border Color Animation Duration
     readonly property int borderColorAnimationDuration: 500
 
-    // Switch Container
-    width: root.itemWidth * 2
-    height: root.itemHeight
 
-    // Theme Colors
-    CustomColors {
-        id: themeColors
-    }
-
-    // Switch Container
+    /*    ITEMS CONTAINER    */
     Row {
-        // Switch Container Size
+        id: itemsContainer
+
+        // Items Container Size
         width: root.width
         height: root.height
 
-        // Switch Container Setup
+        // Items Container General
         spacing: 10
 
-        // Switch Light
+        /*    SWITCH LIGHT    */
         Rectangle {
             id: switchLight
 
-            // Switch Light Size
+            // Switch Size
             width: root.itemWidth
             height: root.itemHeight
             radius: root.switchBorderRadius
 
-            // Switch Light Color
+            // Switch Color
             color: root.lightColor
 
             // Switch Light Border
@@ -121,8 +141,10 @@ Item {
                 source: root.iconLightMode
 
                 // Switch Light Icon Size
-                width: 30
-                height: 30
+                width: 25
+                height: 25
+                sourceSize.width: 25
+                sourceSize.height: 25
 
                 // Switch Light Icon Position
                 anchors.centerIn: switchLight
@@ -144,7 +166,7 @@ Item {
 
         }
 
-        // Switch Dark
+        /*    SWITCH DARK    */
         Rectangle {
             id: switchDark
 
@@ -210,6 +232,8 @@ Item {
                 // Switch Dark Icon Size
                 width: 25
                 height: 25
+                sourceSize.width: 25
+                sourceSize.height: 25
 
                 // Switch Dark Icon Position
                 anchors.centerIn: switchDark
@@ -229,6 +253,6 @@ Item {
                 }
             }
         }
-    }
 
+    }
 }

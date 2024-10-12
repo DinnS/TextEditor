@@ -1,9 +1,24 @@
 import QtQuick
 import QtQuick.Effects
 
-// Dropdown Menu
+/*    DROPDOWN MENU    */
 Item {
     id: root
+
+    /*    THEME COLORS    */
+
+    /*
+    Provide Access to the Colors Library
+    !!!Not the best approach
+    */
+    CustomColors {
+        id: themeColors
+    }
+
+
+    /*    STATUS PROPERTIES    */
+    property bool isDarkTheme: true
+
 
     // General Visibility
     property bool generalVisibility: false
@@ -15,42 +30,43 @@ Item {
     // Model Of Items
     property var menuItems: []
 
-    // Theme Colors
-    CustomColors {
-        id: themeColors
-    }
-
     // Body Size
-    readonly property int bodyWidth: 125
+    readonly property int bodyWidth: 150
 
-    // Body Color
-    readonly property color bodyColor: isDarkThemeReference ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
-
-    readonly property color itemColorHover: isDarkThemeReference ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Item Size
     property int itemHeight: 50
     property int itemSpacing: 10
 
-    // Item Text Color
-    readonly property color itemTextColorDefault: isDarkThemeReference ? themeColors.darkTextDefault : themeColors.lightTextDefault
-
     // Item Text Setup
     property int itemTextSize: 12
 
-    // Reference to Is Dark Theme
-    property bool isDarkThemeReference
 
-    // Outside Mouse Area To Detect Click From Outside
+    /*    THEME SWITCHER COLORS    */
+
+    // Body Color
+    property color bodyColor: isDarkTheme ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
+    property color itemColor: isDarkTheme ? themeColors.darkButtonDefault : themeColors.lightButtonDefault
+    property color itemColorHover: isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
+
+    // Item Text Color
+    readonly property color itemTextColorDefault: isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+
+
+    /*    INTERACTIONS    */
+
+    /*
+    Outside Mouse Area to detect clicks from Outside Dropdown
+    */
     MouseArea {
         id: outsideMouseArea
 
         // Outside Mouse Area Size
-        width: root.windowWidth
+        width: root.windowWidth * 3
         height: root.windowHeight
 
         // Outside Mouse Area Position
-        x: -root.itemSpacing
+        x: -root.windowWidth
         // Ensuring this is below dropdown
         z: -1
 
@@ -59,12 +75,13 @@ Item {
 
         // Outside Mouse Area Click Event
         onClicked: {
-            // If click on the outside, than exit from dropdown
+            // If click on the outside, then exit from dropdown
             root.generalVisibility = false
         }
     }
 
-    // Body
+
+    /*    BODY    */
     Rectangle {
         id: body
 
@@ -82,45 +99,70 @@ Item {
         bottomLeftRadius: 12
         bottomRightRadius: 12
 
-        // Body Column
+        /*    ITEM CONTAINER    */
         Column {
             id: bodyColumn
 
             // Body Column Size
             anchors.fill: body
 
-            // Body Item Repeter
+            /*    ITEM CONTAINER    */
             Repeater {
                 model: root.menuItems
 
-                // Body Item
-                CustomButton {
-                    id: bodyItemNew
+                /*    ITEM    */
+                delegate: CustomButton {
+                    id: bodyItem
 
-                    // Body Item Size
+                    // Item Size
                     width: body.width
                     height: root.itemHeight
 
-                    // Body Item Color
-                    buttonColorDefault: "#00000000"
-                    buttonColorHover: modelData.enabled ? root.itemColorHover : buttonColorDefault
-
-                    textColorDefault: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
-                    textColorHover: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
-                    textColorPressed: modelData.enabled ? itemTextColorDefault : "#4c4c4c"
-
-                    // Body Item Dynamic Text
+                    // Item Dynamic Text
                     text: modelData.text
                     textSize: root.itemTextSize
                     textAlignment: "left"
 
-                    // Body Item Clicked Event
+                    // Item Button Colors
+                    buttonColorDefault: root.itemColor
+                    buttonColorHover: modelData.enabled ? root.itemColorHover : root.itemColor
+
+                    // Item Text Colors
+                    textColorDefault: modelData.enabled ? root.itemTextColorDefault : "#4c4c4c"
+                    textColorHover: modelData.enabled ? root.itemTextColorDefault : "#4c4c4c"
+                    textColorPressed: modelData.enabled ? root.itemTextColorDefault : "#4c4c4c"
+
+                    // Item Theme Status
+                    isDarkTheme: root.isDarkTheme
+
+                    isTextWrap: modelData.isTextWrapReference ? true : false
+
+                    // Item Options
+                    /*
+                    Enable Button with Icon View
+                    */
+                    isButtonWithIcon: modelData.icon ? true : false
+
+                    /*
+                    If Button with Icon View On, than enable option to add icons source
+                    */
+                    iconLightSource: modelData.icon ? modelData.iconLightSource : ""
+                    iconDarkSource: modelData.icon ? modelData.iconDarkSource : ""
+
+                    // Item Clicked Event
                     onClicked: {
-                        // Call the action function
+                        /*
+                        Call the action function
+                        */
                         modelData.enabled ? modelData.action() : null
 
-                        // If Clicked, than Close Dropdown
-                        root.generalVisibility = modelData.enabled ? false : true
+                        /*
+                        Check if that Button with Icon, if not then
+                        If Clicked on button, than hide Dropdown Menu
+                        */
+                        if(!isButtonWithIcon) {
+                            root.generalVisibility = modelData.enabled ? false : true
+                        }
                     }
                 }
 

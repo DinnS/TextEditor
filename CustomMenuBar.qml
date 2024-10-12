@@ -2,12 +2,37 @@ import QtQuick
 import QtQuick.Dialogs
 import org.din.backend 1.0
 
-// Menu Bar
+/*    MENU BAR    */
 Item {
     id: root
 
-    // General
-    // For the dropdown outside the mouse area
+    /*    MENU BAR PROPERTIES    */
+
+    /*
+    Ensuring this is in top
+    */
+    z: 1
+
+    /*    THEME COLORS    */
+
+    /*
+    Provide Access to the Colors Library
+    !!!Not the best approach
+    */
+    CustomColors {
+        id: themeColors
+    }
+
+    /*    STATUS PROPERTIES    */
+    property bool isDarkTheme: themeSwitcher.isDarkTheme
+    property bool isTextWrap: true
+
+
+    /*    GENERAL    */
+
+    /*
+    For Mouse Area to exit the Dropdown
+    */
     property int windowWidth: 640
     property int windowHeight: 480
 
@@ -17,17 +42,12 @@ Item {
     // Reference to the Window Title
     property string windowTitleReference: "Text Editor - Untitled"
 
-    // Theme Colors
-    CustomColors {
-        id: themeColors
-    }
+
+    /*    MENU BAR SIZES    */
 
     // Body Size
     property int bodyWidth: root.width
     property int bodyHeight: root.height
-
-    // Body Color
-    property color bodyColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
 
     // Item Size
     readonly property int itemWidth: 80
@@ -36,36 +56,36 @@ Item {
     // For fix subitem position x
     readonly property int subitemXFix: 4
 
-    // Item Color
-    readonly property color itemDefaultColor: root.isDarkTheme ? "#1a2127" : "#f2f4f9"
-    readonly property color itemHoverColor: "#4a4a4a"
 
-    // Text Color
-    readonly property color textColorDefault: root.isDarkTheme ? "#ffffff" : "#000000"
-    readonly property color textColorHover: root.isDarkTheme ? "#ffffff" : "#000000"
-    readonly property color textColorPressed: root.isDarkTheme ? "#ffffff" : "#000000"
+    /*    MENU BAR COLORS    */
 
-    // Text Setup
+    // Body Color
+    readonly property color bodyColorDefault: root.isDarkTheme ? themeColors.darkMenuBar : themeColors.lightMenuBar
+
+
+    /*    MENU BAR TEXT    */
+
     readonly property int textSize: 11
 
-    // Theme Switcher
-    readonly property bool isDarkTheme: themeSwitcher.isDarkTheme
 
-    // Ensuring this is in top
-    z: 1
+    /*    FUNCTIONS    */
 
-    // Functions
-    // Function to close all dropdown menu
-    function closeAllDropdowns(currentDropdown) {
+    /*
+    Close all dropdown menus except the current one
+    */
+    function closeOtherDropdowns(currentDropdown) {
         if (currentDropdown !== dropdownMenuFile) {
             dropdownMenuFile.generalVisibility = false
         }
         if (currentDropdown !== dropdownMenuEdit) {
             dropdownMenuEdit.generalVisibility = false
         }
+        if (currentDropdown !== dropdownMenuView) {
+            dropdownMenuView.generalVisibility = false
+        }
     }
 
-    // Body
+    /*    BODY    */
     Rectangle {
         id: body
 
@@ -76,122 +96,143 @@ Item {
         // Body Color
         color: root.bodyColorDefault
 
-        // Body Row
+        /*    ITEM CONTAINER    */
         Row {
-            id: bodyRow
+            id: itemContainer
 
-            // Body Row Position
+            // Item Container Position
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 15
             spacing: 10
 
-            // Body Item File
+            /*    BODY CONTAINER ITEM FILE    */
             CustomButton {
                 id: bodyItemFile
 
-                isDarkTheme: root.isDarkTheme
-
-                // Body Item Size
+                // Item Size
                 width: root.itemWidth
                 height: root.itemHeight
 
-                //colorTest: isDarkTheme ? "#1a2127" : "#f2f4f9"
-
-                // // Body Item Color
-                // bodyColorDefault: root.itemDefaultColor
-                // bodyColorHover: root.itemHoverColor
-
-                // // Body Item Text Color
-                // textColorDefault: root.textColorDefault
-                // textColorHover: root.textColorHover
-                // textColorPressed: root.textColorPressed
-
-                // Body Item Text
+                // Item Text
                 text: "File"
                 textSize: root.textSize
 
-                // Body Item Clicked Event
-                onClicked: {
-                    // Close all dropdowns before opening the current one
-                    root.closeAllDropdowns(dropdownMenuFile)
+                // Item Theme Status
+                isDarkTheme: root.isDarkTheme
 
-                    // If Clicked, than Toggle Dropdown
+                // Item Clicked Event
+                onClicked: {
+                    /*
+                    Close all dropdown menus except the dropdownMenuFile
+                    */
+                    root.closeOtherDropdowns(dropdownMenuFile)
+
+                    /*
+                    If Clicked, than Toggle dropdownMenuFile
+                    */
                     dropdownMenuFile.generalVisibility = !dropdownMenuFile.generalVisibility
                 }
 
             }
 
-            // Body Item Edit
+            /*    BODY CONTAINER ITEM EDIT    */
             CustomButton {
                 id: bodyItemEdit
 
-                // Body Item Size
+                // Item Size
                 width: root.itemWidth
                 height: root.itemHeight
 
-                isDarkTheme: root.isDarkTheme
-
-
-
-                // // Body Item Color
-                // bodyColorDefault: root.itemDefaultColor
-                // bodyColorHover: root.itemHoverColor
-
-                // // Body Item Text Color
-                // textColorDefault: root.textColorDefault
-                // textColorHover: root.textColorHover
-                // textColorPressed: root.textColorPressed
-
-                // Body Item Text
+                // Item Text
                 text: "Edit"
                 textSize: root.textSize
 
-                // Body Item Clicked Event
-                onClicked: {
-                    // Close all dropdowns before opening the current one
-                    root.closeAllDropdowns(dropdownMenuEdit)
+                // Item Theme Status
+                isDarkTheme: root.isDarkTheme
 
-                    // If Clicked, than Toggle Dropdown
+                // Item Clicked Event
+                onClicked: {
+                    /*
+                    Close all dropdown menus except the dropdownMenuEdit
+                    */
+                    root.closeOtherDropdowns(dropdownMenuEdit)
+
+                    /*
+                    If Clicked, than Toggle dropdownMenuEdit
+                    */
                     dropdownMenuEdit.generalVisibility = !dropdownMenuEdit.generalVisibility
                 }
+            }
 
+            /*    BODY CONTAINER ITEM VIEW    */
+            CustomButton {
+                id: bodyItemView
+
+                // Item Size
+                width: root.itemWidth
+                height: root.itemHeight
+
+                // Item Text
+                text: "View"
+                textSize: root.textSize
+
+                // Item Theme Status
+                isDarkTheme: root.isDarkTheme
+
+                // Item Clicked Event
+                onClicked: {
+                    /*
+                    Close all dropdown menus except the dropdownMenuView
+                    */
+                    root.closeOtherDropdowns(dropdownMenuView)
+
+                    /*
+                    If Clicked, than Toggle dropdownMenuView
+                    */
+                    dropdownMenuView.generalVisibility = !dropdownMenuView.generalVisibility
+                }
 
             }
         }
 
-        // Body Theme Switcher
+        /*    BODY ITEM THEME SWITCHER    */
         ThemeSwitcher {
             id: themeSwitcher
 
-            // Theme Switcher Size
+            // Item Size
             itemWidth: 60
             itemHeight: body.height - 10
 
-            // Theme Switcher Position
+            // Item Position
             anchors.right: body.right
             anchors.rightMargin: 40
             anchors.verticalCenter: body.verticalCenter
         }
     }
 
-    // Dropdown Menu File
+
+    /*    DROPDOWN MENU FILE    */
+
     CustomMenuDropdown {
         id: dropdownMenuFile
 
-        // Reference to Is Dark Theme
-        isDarkThemeReference: isDarkTheme
-
-        // Dropdown Mouse Area Size
+        // General
+        /*
+        For Mouse Area to exit the Dropdown
+        */
         windowWidth: root.windowWidth
         windowHeight: root.windowHeight - root.height
 
-        // Dropdown Menu Position
-        x: bodyRow.spacing + subitemXFix
+        // Dropdown Position
+        x: itemContainer.spacing + root.subitemXFix
         y: root.bodyHeight
 
-        // Dropdown Menu Items
-        itemSpacing: bodyRow.spacing
+        // Dropdown Theme Status
+        isDarkTheme: root.isDarkTheme
+
+        // Dropdown Items
+        itemSpacing: itemContainer.spacing
         menuItems: [
             {
                 text: "New",
@@ -232,20 +273,22 @@ Item {
         ]
     }
 
-    // Dropdown Menu Edit
+
+    /*    DROPDOWN MENU EDIT    */
+
     CustomMenuDropdown {
         id: dropdownMenuEdit
-
-        // Reference to Is Dark Theme
-        isDarkThemeReference: isDarkTheme
 
         // Dropdown Menu Size
         windowWidth: root.windowWidth
         windowHeight: root.windowHeight - root.height
 
         // Dropdown Menu Position
-        x: root.itemWidth + (bodyRow.spacing * 2) + subitemXFix
+        x: root.itemWidth + (itemContainer.spacing * 2) + root.subitemXFix
         y: root.bodyHeight
+
+        // Dropdown Theme Status
+        isDarkTheme: root.isDarkTheme
 
         // Dropdown Menu Items
         menuItems: [
@@ -274,25 +317,43 @@ Item {
 
     }
 
-    // Connecting to the backend
-    Backend {
-        id: backend
 
-        // Dynamic update the window title
-        onFilePathChanged: {
-            if (filePath !== "") {
-                // Extract the file name
-                var fileName = filePath.split("/").pop().split(".")[0];
-                // Update the title
-                root.windowTitleReference = "Text Editor - " + fileName;
-            } else {
-                // Update the title when no file is open
-                root.windowTitleReference = "Text Editor - Untitled";
+    /*    DROPDOWN MENU VIEW    */
+
+    CustomMenuDropdown {
+        id: dropdownMenuView
+
+        // Dropdown Menu Size
+        windowWidth: root.windowWidth
+        windowHeight: root.windowHeight - root.height
+
+        // Dropdown Menu Position
+        x: (root.itemWidth * 2) + (itemContainer.spacing * 3) + subitemXFix
+        y: root.bodyHeight
+
+        // Reference to Is Dark Theme
+        isDarkTheme: root.isDarkTheme
+
+        // Dropdown Menu Items
+        menuItems: [
+            {
+                text: "Text Wrap",
+                action: function() {
+                    root.isTextWrap = !root.isTextWrap
+                },
+                enabled: true,
+                icon: true,
+                iconLightSource: "qrc:/icons/icons/IconLightCheck.svg",
+                iconDarkSource: "qrc:/icons/icons/IconDarkCheck.svg",
+                isTextWrapReference: root.isTextWrap
             }
-        }
+        ]
+
     }
 
-    // File Dialogs Popups
+
+    /*    FILE DIALOGS POPUPS    */
+
     FileDialog {
         id: openDialog
         title: "Please select a file to open"
@@ -315,6 +376,26 @@ Item {
         onAccepted: {
             backend.filePath = saveDialog.selectedFile
             backend.fileContent = textEditor.text
+        }
+    }
+
+
+    /*    CONNECTING TO BACKEND    */
+
+    Backend {
+        id: backend
+
+        // Dynamic update the window title
+        onFilePathChanged: {
+            if (filePath !== "") {
+                // Extract the file name
+                var fileName = filePath.split("/").pop().split(".")[0];
+                // Update the title
+                root.windowTitleReference = "Text Editor - " + fileName;
+            } else {
+                // Update the title when no file is open
+                root.windowTitleReference = "Text Editor - Untitled";
+            }
         }
     }
 
