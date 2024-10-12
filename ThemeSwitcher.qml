@@ -19,6 +19,7 @@ Item {
 
     /*    STATUS PROPERTIES    */
     property bool isDarkTheme: true
+    property bool isBorderColorAnimation: true
 
 
     /*    THEME SWITCHER SOURCE ICONS    */
@@ -35,7 +36,6 @@ Item {
     // Switch Container
     width: root.itemWidth * 2
     height: root.itemHeight
-
 
 
     /*    THEME SWITCHER COLORS    */
@@ -99,7 +99,7 @@ Item {
                 loops: Animation.Infinite
 
                 // Conditions for running
-                running: !root.isDarkTheme
+                running: root.isBorderColorAnimation ? !root.isDarkTheme : false
 
                 // Transition
                 ColorAnimation {
@@ -155,6 +155,11 @@ Item {
                 // Switch Light Mouse Area Size
                 anchors.fill: switchLight
 
+                /*
+                Change cursor shape when hovering
+                */
+                cursorShape: Qt.PointingHandCursor
+
                 // Switch Light Mouse Area Event Clicked
                 onClicked: {
                     // If clicked and status dark, then change to light status
@@ -188,7 +193,7 @@ Item {
                 loops: Animation.Infinite
 
                 // Conditions for running
-                running: root.isDarkTheme
+                running: root.isBorderColorAnimation ? root.isDarkTheme : false
 
                 // Transition
                 ColorAnimation {
@@ -243,6 +248,11 @@ Item {
             MouseArea {
                 // Switch Dark Mouse Area Size
                 anchors.fill: switchDark
+
+                /*
+                Change cursor shape when hovering
+                */
+                cursorShape: Qt.PointingHandCursor
 
                 // Switch Dark Mouse Area Event Clicked
                 onClicked: {

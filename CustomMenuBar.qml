@@ -224,15 +224,14 @@ Item {
         windowWidth: root.windowWidth
         windowHeight: root.windowHeight - root.height
 
-        // Dropdown Position
+        // Position
         x: itemContainer.spacing + root.subitemXFix
         y: root.bodyHeight
 
-        // Dropdown Theme Status
+        // Theme Status
         isDarkTheme: root.isDarkTheme
 
-        // Dropdown Items
-        itemSpacing: itemContainer.spacing
+        // Items
         menuItems: [
             {
                 text: "New",
@@ -279,18 +278,21 @@ Item {
     CustomMenuDropdown {
         id: dropdownMenuEdit
 
-        // Dropdown Menu Size
+        // General
+        /*
+        For Mouse Area to exit the Dropdown
+        */
         windowWidth: root.windowWidth
         windowHeight: root.windowHeight - root.height
 
-        // Dropdown Menu Position
+        // Position
         x: root.itemWidth + (itemContainer.spacing * 2) + root.subitemXFix
         y: root.bodyHeight
 
-        // Dropdown Theme Status
+        // Theme Status
         isDarkTheme: root.isDarkTheme
 
-        // Dropdown Menu Items
+        // Items
         menuItems: [
             {
                 text: "Cut",
@@ -323,18 +325,22 @@ Item {
     CustomMenuDropdown {
         id: dropdownMenuView
 
-        // Dropdown Menu Size
+        // General
+        /*
+        For Mouse Area to exit the Dropdown
+        */
         windowWidth: root.windowWidth
         windowHeight: root.windowHeight - root.height
 
-        // Dropdown Menu Position
-        x: (root.itemWidth * 2) + (itemContainer.spacing * 3) + subitemXFix
+        // Position
+        x: (root.itemWidth * 2) + (itemContainer.spacing * 3) + root.subitemXFix
         y: root.bodyHeight
 
-        // Reference to Is Dark Theme
+        // Theme Status
         isDarkTheme: root.isDarkTheme
+        isButtonWithIcon: true
 
-        // Dropdown Menu Items
+        // Items
         menuItems: [
             {
                 text: "Text Wrap",
@@ -346,6 +352,17 @@ Item {
                 iconLightSource: "qrc:/icons/icons/IconLightCheck.svg",
                 iconDarkSource: "qrc:/icons/icons/IconDarkCheck.svg",
                 isTextWrapReference: root.isTextWrap
+            },
+            {
+                text: "Color Animation",
+                action: function() {
+                    themeSwitcher.isBorderColorAnimation = !themeSwitcher.isBorderColorAnimation
+                },
+                enabled: true,
+                icon: true,
+                iconLightSource: "qrc:/icons/icons/IconLightCheck.svg",
+                iconDarkSource: "qrc:/icons/icons/IconDarkCheck.svg",
+                isBorderColorAnimationReference: themeSwitcher.isBorderColorAnimation
             }
         ]
 

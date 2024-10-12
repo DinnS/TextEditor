@@ -18,7 +18,7 @@ Item {
 
     /*    STATUS PROPERTIES    */
     property bool isDarkTheme: true
-
+    property bool isButtonWithIcon: false
 
     // General Visibility
     property bool generalVisibility: false
@@ -31,8 +31,7 @@ Item {
     property var menuItems: []
 
     // Body Size
-    readonly property int bodyWidth: 150
-
+    readonly property int bodyWidth: root.isButtonWithIcon ? 225 : 125
 
     // Item Size
     property int itemHeight: 50
@@ -45,12 +44,12 @@ Item {
     /*    THEME SWITCHER COLORS    */
 
     // Body Color
-    property color bodyColor: isDarkTheme ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
-    property color itemColor: isDarkTheme ? themeColors.darkButtonDefault : themeColors.lightButtonDefault
-    property color itemColorHover: isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
+    property color bodyColor: root.isDarkTheme ? themeColors.darkMenuDropdown : themeColors.lightMenuDropdown
+    property color itemColor: root.isDarkTheme ? themeColors.darkButtonDefault : themeColors.lightButtonDefault
+    property color itemColorHover: root.isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Item Text Color
-    readonly property color itemTextColorDefault: isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    readonly property color itemTextColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
 
 
     /*    INTERACTIONS    */
@@ -137,11 +136,16 @@ Item {
 
                     isTextWrap: modelData.isTextWrapReference ? true : false
 
+                    isBorderColorAnimation: modelData.isBorderColorAnimationReference ? true : false
+
+                    currentTrackFeature: (modelData.isTextWrapReference ? true : modelData.isBorderColorAnimationReference ? true : false)
+
                     // Item Options
                     /*
                     Enable Button with Icon View
                     */
                     isButtonWithIcon: modelData.icon ? true : false
+
 
                     /*
                     If Button with Icon View On, than enable option to add icons source

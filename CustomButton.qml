@@ -16,13 +16,22 @@ Item {
 
     /*    STATUS PROPERTIES    */
     property bool isDarkTheme: true
-    property bool isTextWrap: true
     property bool isButtonWithIcon: false
+    property bool isTextWrap: true
+    property bool isBorderColorAnimation: true
+
+    property bool currentTrackFeature: false
+
+
+    /*    BUTTON SOURCE    */
 
     // Icons Source
     property url iconLightSource: "qrc:/icons/icons/IconLightCheck.svg"
     property url iconDarkSource: "qrc:/icons/icons/IconDarkCheck.svg"
     property url iconSource: root.isDarkTheme ? root.iconLightSource : root.iconDarkSource
+
+
+    /*    BUTTON COLORS    */
 
     // Body Color
     property color buttonColorDefault: root.isDarkTheme ? themeColors.darkButtonDefault : themeColors.lightButtonDefault
@@ -33,6 +42,9 @@ Item {
     property color textColorHover: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
     property color textColorPressed: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
 
+
+    /*    BUTTON TEXT    */
+
     // Text Setup
     property string text: "Default"
     property int textSize: 12
@@ -40,8 +52,12 @@ Item {
     // Text Alignment
     property string textAlignment: "center"
 
+
+    /*    BUTTON SIGNALS    */
+
     // Clicked Signal
     signal clicked()
+
 
     /*    INDICATOR ICON    */
     Image {
@@ -49,12 +65,14 @@ Item {
 
         source: root.isDarkTheme ? root.iconLightSource : root.iconDarkSource
 
+        // Size
         width: 15
         height: 15
         sourceSize.width: 15
         sourceSize.height: 15
 
-        opacity: root.isTextWrap ? 1.0 : 0
+        // Visibility
+        opacity: root.currentTrackFeature ? 1.0 : 0
 
         // Position
         anchors.verticalCenter: body.verticalCenter
@@ -65,6 +83,7 @@ Item {
 
         visible: root.isButtonWithIcon
 
+        // Layer
         z: 1
     }
 
@@ -112,6 +131,11 @@ Item {
 
         // General
         hoverEnabled: true
+
+        /*
+        Change cursor shape when hovering
+        */
+        cursorShape: Qt.PointingHandCursor
 
         // Pressed Event
         onPressed: {

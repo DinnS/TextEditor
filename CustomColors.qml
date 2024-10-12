@@ -20,6 +20,7 @@ QtObject {
     readonly property color lightTextDefault: "#1a1a1a"
     readonly property color lightTextHover: "#1a1a1a"
     readonly property color lightTextPressed: "#1a1a1a"
+    readonly property color lightTextSelected: "#FFC800"
 
     // Cursor
     readonly property color lightCursor: "#1a1a1a"
@@ -29,9 +30,9 @@ QtObject {
 
     // Theme Switcher
     readonly property color lightThemeSwitcher: "#f4edf4"
-    readonly property color lightThemeSwitcherBorderFirst: "#FFD700"
-    readonly property color lightThemeSwitcherBorderSecond: "#FFC500"
-    readonly property color lightThemeSwitcherBorderThird: "#FFB200"
+    readonly property color lightThemeSwitcherBorderFirst: "#FFE600"
+    readonly property color lightThemeSwitcherBorderSecond: "#FFC800"
+    readonly property color lightThemeSwitcherBorderThird: "#FFAA00"
     readonly property color lightThemeSwitcherBorderDisable: "transparent"
 
 
@@ -50,6 +51,7 @@ QtObject {
     readonly property color darkTextDefault: "#ffffff"
     readonly property color darkTextHover: "#ffffff"
     readonly property color darkTextPressed: "#ffffff"
+    readonly property color darkTextSelected: "#003364"
 
     // Cursor
     readonly property color darkCursor: "#ffffff"
@@ -59,9 +61,9 @@ QtObject {
 
     // Theme Switcher
     readonly property color darkThemeSwitcher: "#2C302E"
-    readonly property color darkThemeSwitcherBorderFirst: "#002855"
-    readonly property color darkThemeSwitcherBorderSecond: "#002E5E"
-    readonly property color darkThemeSwitcherBorderThird: "#003366"
+    readonly property color darkThemeSwitcherBorderFirst: "#003B7B"
+    readonly property color darkThemeSwitcherBorderSecond: "#003364"
+    readonly property color darkThemeSwitcherBorderThird: "#002B4D"
     readonly property color darkThemeSwitcherBorderDisable: "transparent"
 
 }

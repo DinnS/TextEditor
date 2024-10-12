@@ -41,7 +41,8 @@ ApplicationWindow {
     readonly property color editorBackgroundColor: menuBar.isDarkTheme ? themeColors.darkEditor : themeColors.lightEditor
 
     // Editor Text Color
-    readonly property color editorTextColor: menuBar.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    readonly property color editorTextColorDefault: menuBar.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    readonly property color editorTextColorSelected: menuBar.isDarkTheme ? themeColors.darkTextSelected : themeColors.lightTextSelected
     readonly property color editorCursorTextColor: menuBar.isDarkTheme ? themeColors.darkCursor : themeColors.lightCursor
 
     // Editor Text Size
@@ -54,7 +55,6 @@ ApplicationWindow {
     readonly property int scrollBarSize: 9
     readonly property int scrollBarRadius: 15
     readonly property color scrollBarColor: menuBar.isDarkTheme ? themeColors.darkScrollBar : themeColors.lightScrollBar
-
 
     /*    MENU BAR    */
     CustomMenuBar {
@@ -114,7 +114,9 @@ ApplicationWindow {
 
 
         // Text Editor Setup
-        // Off bounce animation
+        /*
+        Off bounce animation when scrolling
+        */
         boundsBehavior: Flickable.StopAtBounds
 
         // Text Editor Vertical ScrollBar
@@ -188,7 +190,8 @@ ApplicationWindow {
             font.pointSize: window.editorTextSize
 
             // Text Editor Area Text Color
-            color: window.editorTextColor
+            color: window.editorTextColorDefault
+            selectionColor: window.editorTextColorSelected
 
             // Text Editor Area Text Cursor
             cursorDelegate: Rectangle {
@@ -250,7 +253,6 @@ ApplicationWindow {
                 // Background Color
                 color: window.editorBackgroundColor
             }
-
         }
     }
 
