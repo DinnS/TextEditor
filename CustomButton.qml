@@ -48,6 +48,7 @@ Item {
     // Text Setup
     property string text: "Default"
     property int textSize: 12
+    property string fontFamily: "Trebuchet MS"
 
     // Text Alignment
     property string textAlignment: "center"
@@ -78,7 +79,9 @@ Item {
         anchors.verticalCenter: body.verticalCenter
         anchors.horizontalCenter: (root.textAlignment === "center" ? parent.horizontalCenter : undefined)
         anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
-        // Add a margin if left aligned
+        /*
+        Add a margin if left aligned
+        */
         anchors.leftMargin: (root.textAlignment === "left" ? 20 : 0)
 
         visible: root.isButtonWithIcon
@@ -109,12 +112,16 @@ Item {
             anchors.verticalCenter: body.verticalCenter
             anchors.horizontalCenter: (root.textAlignment === "center" ? parent.horizontalCenter : undefined)
             anchors.left: (root.textAlignment === "left" ? parent.left : undefined)
-            // Add a margin if left aligned
+            /*
+            Add a margin if left aligned, if button with icon
+            then add more margin
+            */
             anchors.leftMargin: (root.isButtonWithIcon ? (root.textAlignment === "left" ? 50 : 0) : (root.textAlignment === "left" ? 20 : 0))
 
-            // Text
+            // Text Setup
             text: root.text
             font.pointSize: root.textSize
+            font.family: root.fontFamily
 
             // Color
             color: root.textColorDefault

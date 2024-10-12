@@ -53,7 +53,9 @@ Item {
     readonly property int itemWidth: 80
     readonly property int itemHeight: root.bodyHeight
 
-    // For fix subitem position x
+    /*
+    For fix item position x
+    */
     readonly property int subitemXFix: 4
 
 

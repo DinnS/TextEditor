@@ -70,23 +70,23 @@ Item {
     Row {
         id: itemsContainer
 
-        // Items Container Size
+        // Size
         width: root.width
         height: root.height
 
-        // Items Container General
+        // General
         spacing: 10
 
         /*    SWITCH LIGHT    */
         Rectangle {
             id: switchLight
 
-            // Switch Size
+            // Switch Light Size
             width: root.itemWidth
             height: root.itemHeight
             radius: root.switchBorderRadius
 
-            // Switch Color
+            // Switch Light Color
             color: root.lightColor
 
             // Switch Light Border

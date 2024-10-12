@@ -48,6 +48,9 @@ ApplicationWindow {
     // Editor Text Size
     readonly property int editorTextSize: 14
 
+    // Editor Font Family
+    readonly property string fontFamily: "Trebuchet MS"
+
     // Editor Text Wrap Mode
     readonly property bool editorTextWrapOn: menuBar.isTextWrap
 
@@ -102,6 +105,7 @@ ApplicationWindow {
             scrollView.contentY = scrollView.contentHeight >= (window.height) ? scrollView.contentHeight - scrollView.height : scrollView.contentY
             // Show scrollbar if necessary
             scrollBarVertical.policy = scrollView.contentHeight >= (window.height) ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+
         }
 
         // Scroll Position
@@ -188,6 +192,7 @@ ApplicationWindow {
             // Text Editor Area Text
             text: ""
             font.pointSize: window.editorTextSize
+            font.family: window.fontFamily
 
             // Text Editor Area Text Color
             color: window.editorTextColorDefault

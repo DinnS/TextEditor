@@ -20,15 +20,12 @@ Item {
     property bool isDarkTheme: true
     property bool isButtonWithIcon: false
 
-    // General Visibility
-    property bool generalVisibility: false
+
+    /*    THEME SWITCHER SIZE    */
 
     // Window Info for MouseArea
     property int windowWidth: 640
     property int windowHeight: 480
-
-    // Model Of Items
-    property var menuItems: []
 
     // Body Size
     readonly property int bodyWidth: root.isButtonWithIcon ? 225 : 125
@@ -37,8 +34,21 @@ Item {
     property int itemHeight: 50
     property int itemSpacing: 10
 
-    // Item Text Setup
-    property int itemTextSize: 12
+
+    /*    THEME SWITCHER ITEM TEXT    */
+
+    // Item Button Text Setup
+    readonly property int itemTextSize: 12
+    readonly property string fontFamily: "Trebuchet MS"
+
+
+    /*    THEME SWITCHER GENERAL    */
+
+    // General Visibility
+    property bool generalVisibility: false
+
+    // Model Of Items
+    property var menuItems: []
 
 
     /*    THEME SWITCHER COLORS    */
@@ -49,7 +59,7 @@ Item {
     property color itemColorHover: root.isDarkTheme ? themeColors.darkButtonHover : themeColors.lightButtonHover
 
     // Item Text Color
-    readonly property color itemTextColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
+    property color itemTextColorDefault: root.isDarkTheme ? themeColors.darkTextDefault : themeColors.lightTextDefault
 
 
     /*    INTERACTIONS    */
@@ -84,17 +94,17 @@ Item {
     Rectangle {
         id: body
 
-        // Body Visibility
+        // Visibility
         visible: root.generalVisibility
 
-        // Body Size
+        // Size
         width: root.bodyWidth
         height: (bodyColumn.children.length - 1) * root.itemHeight
 
-        // Body Color
+        // Color
         color: root.bodyColor
 
-        // Body Radius
+        // Radius
         bottomLeftRadius: 12
         bottomRightRadius: 12
 
@@ -102,7 +112,7 @@ Item {
         Column {
             id: bodyColumn
 
-            // Body Column Size
+            // Column Size
             anchors.fill: body
 
             /*    ITEM CONTAINER    */
@@ -121,6 +131,7 @@ Item {
                     text: modelData.text
                     textSize: root.itemTextSize
                     textAlignment: "left"
+                    fontFamily: root.fontFamily
 
                     // Item Button Colors
                     buttonColorDefault: root.itemColor
